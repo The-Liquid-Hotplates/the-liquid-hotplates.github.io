@@ -393,7 +393,7 @@ footer {
    real aspect ratio (no object-fit:cover cutting people off), it just packs
    into columns at whatever height it naturally wants to be. */
 .year-gallery {
-  columns: 4 220px;
+  columns: 3 220px;
   column-gap: 1.25rem;
 }
 
