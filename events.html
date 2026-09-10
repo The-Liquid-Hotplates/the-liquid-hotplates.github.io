@@ -139,7 +139,8 @@
 
   .panel-inner-hero {
     position: relative;
-    min-height: 32vh;
+    min-height: 48vh; /* CHANGE: was 32vh - taller box means background-size:cover crops much less
+                          of the photo away, so fewer people get cut off in group shots */
     display: flex;
     flex-direction: column; /* BUG FIX: this was missing, so the browser defaulted to row direction,
                                 laying eyebrow/title/date out side by side instead of stacked - that's
@@ -304,7 +305,7 @@
       ],
       members: [],
       video: null,
-      gallery: ['images/events/2026/OTR-2026-images/img1.jpg',
+      gallery: ['images/events/2026/otr/img1.jpg',
       'images/events/2026/otr/img2.jpg',
       'images/events/2026/otr/img3.jpg',
       'images/events/2026/otr/img4.jpg',
