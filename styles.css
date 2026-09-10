@@ -95,18 +95,21 @@ nav {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 50;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* logo | pill | empty spacer - this is what actually keeps
+                                           them from ever overlapping, since each has its own real
+                                           track instead of the pill just centering on the full
+                                           viewport width with no idea the logo is even there */
   align-items: center;
   padding: 1.5rem 2rem;
 }
 
 .nav-left {
-  position: absolute;
-  left: 2rem;
   display: flex;
   align-items: center;
   gap: 0.7rem;
+  min-width: 0; /* lets this shrink/truncate instead of forcing the grid track wider than available room */
+  overflow: hidden;
 }
 
 .nav-left img {
@@ -183,7 +186,11 @@ nav {
   position: relative;
   z-index: 3;
   width: 100%;
-  max-width: 540px; /* CHANGE: was 720px - narrower so it's less likely to sit directly over faces */
+  max-width: min(92vw, 700px); /* CHANGE: measured "The Liquid Hotplates" actually needs 607px at the
+                                    max font-size in the clamp below - 700px (minus padding) gives it
+                                    real margin to fit on one line on desktop. min(92vw, ...) still lets
+                                    it narrow down on a phone screen, where it wraps naturally instead
+                                    of being forced to. */
   text-align: center;
   padding: 2rem 1.75rem; /* CHANGE: was 2.75rem 2rem - tighter, less coverage */
   background: var(--glass-fill);
@@ -438,6 +445,21 @@ footer {
   opacity: 1;
 }
 
+.nav-left img {
+  flex-shrink: 0; /* protects the logo from ever getting visually squeezed as its grid track shrinks */
+}
+
+/* Hides just the site name once there's no longer comfortable room for
+   logo + name + the full pill together - the logo stays visible at every
+   width, all the way down to mobile. Without this, the name was clipping
+   mid-word once the nav-left grid track got too narrow, instead of
+   cleanly disappearing. */
+@media (max-width: 1050px) {
+  .nav-left .site-name {
+    display: none;
+  }
+}
+
 /* ============ MOBILE NAV FIX ============ */
 /* With 6 items now (Home/Members/Events/Music/Auditions/Contact Us), the
    pill is too wide to fit a phone screen in one row. Rather than making it
@@ -446,12 +468,7 @@ footer {
    six still fit on one row with no scrolling and no wrapping. */
 @media (max-width: 700px) {
   nav {
-    justify-content: center;
     padding: 1rem 0.5rem;
-  }
-
-  .nav-left {
-    display: none; /* no logo or name on mobile - the pill needs the room more */
   }
 
   .nav-pill {
