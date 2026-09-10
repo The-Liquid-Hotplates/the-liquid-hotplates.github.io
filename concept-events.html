@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events — The Liquid Hotplates — Glass Concept</title>
+<link rel="stylesheet" href="concept.css">
+<style>
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .year-heading {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    opacity: 0.8;
+    margin-bottom: 1rem;
+  }
+
+  .year-group { display: flex; flex-direction: column; gap: 1rem; }
+
+  .event-card {
+    padding: 1.75rem 2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .event-card:hover {
+    background: rgba(9, 83, 234, 0.1);
+    border-color: rgba(9, 83, 234, 0.35);
+  }
+
+  .event-card .info h3 { font-size: 1.15rem; font-weight: 700; }
+  .event-card .info p { opacity: 0.6; font-size: 0.92rem; margin-top: 0.3rem; }
+  .event-card .date {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--blue-light);
+    background: rgba(9, 83, 234, 0.15);
+    padding: 0.45rem 0.9rem;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  /* ============ EXPAND OVERLAY - now the FULL event page, not a preview ============ */
+  #expand-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: rgba(5, 5, 6, 0);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+
+  #expand-backdrop.visible {
+    opacity: 1;
+    background: rgba(5, 5, 6, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    pointer-events: auto;
+  }
+
+  #expand-panel {
+    position: fixed;
+    z-index: 91;
+    background: rgba(11, 12, 16, 0.92);
+    border: 1px solid var(--glass-edge);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    overflow: hidden;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.65);
+  }
+
+  #expand-panel .close-btn {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid var(--glass-edge);
+    color: var(--off-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 93;
+    opacity: 0;
+    transition: opacity 0.3s ease 0.25s, background 0.2s ease;
+  }
+
+  #expand-panel .close-btn:hover { background: rgba(255,255,255,0.16); }
+  #expand-panel.expanded .close-btn { opacity: 1; }
+
+  #expand-panel .panel-content {
+    height: 100%;
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity 0.35s ease 0.2s;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #5a5a5a #0d0d0f; /* Firefox: thumb color, track color */
+  }
+
+  /* Chrome/Safari/Edge scrollbar - gray thumb on a near-black track,
+     instead of the default (often white/light) system scrollbar */
+  #expand-panel .panel-content::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  #expand-panel .panel-content::-webkit-scrollbar-track {
+    background: #0d0d0f;
+  }
+
+  #expand-panel .panel-content::-webkit-scrollbar-thumb {
+    background: #5a5a5a;
+    border-radius: 10px;
+    border: 2px solid #0d0d0f; /* creates a little breathing room around the thumb */
+  }
+
+  #expand-panel .panel-content::-webkit-scrollbar-thumb:hover {
+    background: #757575;
+  }
+
+  #expand-panel.expanded .panel-content { opacity: 1; }
+
+  .panel-inner-hero {
+    position: relative;
+    min-height: 32vh;
+    display: flex;
+    flex-direction: column; /* BUG FIX: this was missing, so the browser defaulted to row direction,
+                                laying eyebrow/title/date out side by side instead of stacked - that's
+                                what was causing the jumbled/overlapping look */
+    justify-content: flex-end; /* pushes the stack to the bottom, now that direction is column */
+    align-items: flex-start; /* keeps everything left-aligned */
+    padding: 2.5rem clamp(1.5rem, 5vw, 4rem);
+  }
+
+  .panel-inner-hero .photo-layer { position: absolute; inset: 0; background-size: cover; background-position: center 30%; }
+  .panel-inner-hero .photo-dim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,12,16,0.2) 0%, rgba(11,12,16,0.75) 75%, rgba(11,12,16,0.92) 100%); }
+
+  .panel-eyebrow { position: relative; font-size: 0.85rem; color: var(--blue-light); letter-spacing: 0.05em; margin-bottom: 0.6rem; }
+  .panel-title { position: relative; font-size: clamp(1.7rem, 4.2vw, 2.75rem); font-weight: 800; }
+  .panel-date { position: relative; opacity: 0.65; font-size: 0.98rem; margin-top: 0.5rem; }
+
+  .panel-body-inner { padding: 2.5rem clamp(1.5rem, 5vw, 4rem) 4rem; max-width: 900px; }
+
+  .panel-awards { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 2rem; }
+  .panel-award {
+    font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--orange); background: rgba(255, 107, 53, 0.15); padding: 0.4rem 0.9rem; border-radius: 20px;
+  }
+
+  .panel-section-title { font-size: 1.2rem; font-weight: 700; margin: 2.5rem 0 1.25rem; }
+  .panel-section-title:first-of-type { margin-top: 0; }
+  .panel-about { opacity: 0.82; line-height: 1.75; font-size: 1.02rem; }
+  .panel-about .name { color: var(--blue-light); font-weight: 600; }
+
+  .panel-glass-box { background: var(--glass-fill); border: 1px solid var(--glass-edge); border-radius: 18px; padding: 1.75rem 2rem; }
+
+  .setlist-item { padding: 1.1rem 0; border-bottom: 1px solid var(--glass-edge); }
+  .setlist-item:last-child { border-bottom: none; }
+  .setlist-item h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .setlist-item .credits { opacity: 0.6; font-size: 0.88rem; line-height: 1.6; }
+
+  .member-pills { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+  .member-pill { font-size: 0.82rem; padding: 0.45rem 1rem; border-radius: 20px; background: var(--glass-fill); border: 1px solid var(--glass-edge); }
+
+  .panel-video { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-edge); }
+  .panel-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .panel-gallery { columns: 3 200px; column-gap: 0.9rem; }
+  .panel-gallery img { width: 100%; display: block; break-inside: avoid; margin-bottom: 0.9rem; border-radius: 12px; }
+
+  .back-link-panel {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem;
+    margin-bottom: 2rem; cursor: pointer;
+  }
+  .back-link-panel:hover { color: var(--blue-light); }
+</style>
+</head>
+<body>
+
+  <div class="aura-field">
+    <div class="aura aura-a"></div>
+    <div class="aura aura-b"></div>
+    <div class="aura aura-d"></div>
+  </div>
+  <div class="grain"></div>
+
+  <nav>
+    <div class="nav-left">
+      <img src="images/home-images/logo.png" alt="LHP Logo">
+      <span class="site-name">The Liquid Hotplates</span>
+    </div>
+    <div class="nav-pill">
+      <a href="concept-home.html">Home</a>
+      <a href="concept-members.html">Members</a>
+      <a href="concept-events.html" class="active">Events</a>
+      <a href="concept-music.html">Music</a>
+      <a href="concept-auditions.html">Auditions</a>
+      <a href="concept-contact.html">Contact Us</a>
+    </div>
+  </nav>
+
+  <div class="page-head">
+    <div class="eyebrow">The Timeline</div>
+    <h1>Events</h1>
+    <p>Tap any event to open its full page right here - setlist, member list, video, and photos all included. No separate page load.</p>
+  </div>
+
+  <section class="section" style="padding-top: 1rem;">
+    <div class="timeline" id="timeline">
+
+      <div class="year-group">
+        <div class="year-heading">2026</div>
+        <div class="event-card glass-card" data-event="otr2026">
+          <div class="info"><h3>Off The Record 2026</h3><p>LHP's 2nd annual OTR showcasing everything we've worked on the entire year!</p></div>
+          <div class="date">MAY 16, 2026</div>
+        </div>
+        <div class="event-card glass-card" data-event="semis2026">
+          <div class="info"><h3>ICCA West Semifinals 2026</h3><p>LHP took home 3rd place &amp; Outstanding Soloist at Semifinals!</p></div>
+          <div class="date">MAR 21, 2026</div>
+        </div>
+        <div class="event-card glass-card" data-event="quarters2026">
+          <div class="info"><h3>ICCA West Quarterfinals 2026</h3><p>LHP placed 1st at Quarterfinals and took home Outstanding Arrangement, Outstanding Vocal Percussionist, &amp; Outstanding Soloist!</p></div>
+          <div class="date">FEB 28, 2026</div>
+        </div>
+      </div>
+
+      <div class="year-group">
+        <div class="year-heading">2025</div>
+        <div class="event-card glass-card" data-event="alotta2025">
+          <div class="info"><h3>Alottacappella 2025</h3><p>LHP's annual show featuring groups across the state!</p></div>
+          <div class="date">NOV 22–23, 2025</div>
+        </div>
+        <div class="event-card glass-card" data-event="otr2025">
+          <div class="info"><h3>Off The Record 2025</h3><p>First free OTR show in history showcasing music we've worked on throughout the year!</p></div>
+          <div class="date">MAY 17, 2025</div>
+        </div>
+        <div class="event-card glass-card" data-event="quarters2025">
+          <div class="info"><h3>ICCA West Quarterfinals 2025</h3><p>LHP placed 3rd at Quarterfinals and took home Outstanding Vocal Percussionist!</p></div>
+          <div class="date">FEB 8, 2025</div>
+        </div>
+      </div>
+
+      <div class="year-group">
+        <div class="year-heading">2024</div>
+        <div class="event-card glass-card" data-event="alotta2024">
+          <div class="info"><h3>Alottacappella 2024</h3><p>LHP's annual show featuring groups across the state!</p></div>
+          <div class="date">NOV 16–17, 2024</div>
+        </div>
+        <div class="event-card glass-card" data-event="quarters2024">
+          <div class="info"><h3>ICCA West Quarterfinals 2024</h3><p>LHP placed 3rd at Quarterfinals &amp; took home Outstanding Soloist!</p></div>
+          <div class="date">FEB 17, 2024</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>&copy; 2026 The Liquid Hotplates — glass concept demo, not the live site</footer>
+
+  <div id="expand-backdrop"></div>
+  <div id="expand-panel">
+    <div class="close-btn" id="closeBtn">✕</div>
+    <div class="panel-content" id="panelContent"></div>
+  </div>
+
+<script>
+  const events = {
+    otr2026: {
+      title: 'Off The Record 2026', eyebrow: 'Off The Record 2026',
+      date: "May 16th, 2026 · Khaira Lecture Hall, UC Davis",
+      hero: 'images/events/2026/otr/hero.jpg',
+      awards: [],
+      about: `LHP presents our annual free spring showcase - Off The Record! This year, we performed various songs arranged by many members in the group, along with our award-winning ICCA set. We also had a variety of cute and crafty member-created merch!<br><br>We also said goodbye to our Class of 2026 Seniors - <span class="name">Ellie Mizushima</span> &amp; <span class="name">Priyanshi Singh</span>!`,
+      setlist: [
+        { song: '"Attention" — Charlie Puth' },
+        { song: '"Jealous" — Labrinth' },
+        { song: '"Here Comes the Sun" — The Beatles' },
+        { song: '"Night" — Keshi' },
+        { song: 'ICCA Set' }
+      ],
+      members: [],
+      video: null,
+      gallery: ['images/events/2026/otr/img1.jpg','images/events/2026/otr/img2.jpeg','images/events/2026/otr/img3.jpg','images/events/2026/otr/img4.jpg','images/events/2026/otr/img5.jpg','images/events/2026/otr/img6.jpg']
+    },
+    semis2026: {
+      title: 'ICCA West Semifinals 2026', eyebrow: '3rd Place · Semifinals',
+      date: "March 21st, 2026 · Fox Theatre @ Redwood City",
+      hero: 'images/events/2026/semis/hero.jpg',
+      awards: ['3rd Place - Semifinals', 'Outstanding Vocal Percussion', 'Outstanding Soloist'],
+      about: `After winning 1st place at Quarterfinals, LHP moved on to the ICCA West Semifinals, competing against some of the top groups from across the West region. We took home 3rd place along with Outstanding Vocal Percussion (won by <span class="name">Lik Yau Chow</span>) and Outstanding Soloist (won by <span class="name">Lesley Laurence</span>)!<br><br>We also got amazing shots of our set by Jake Young (pictured below)!`,
+      setlist: [
+        { song: '"The Blade" — AURORA', credits: 'Soloist: Priyanshi Singh · Arrangement: Chow Lik Yau · Choreographers: Ellie Mizushima, Kiera Yap' },
+        { song: '"To Ashes & Blood" — Arcane, League of Legends, and Woodkid', credits: 'Soloist: Evan Liu · Arrangement: Chow Lik Yau · Choreographers: Ellie Mizushima, Kiera Yap' },
+        { song: '"这样很好[Isha\'s Song]/First Light" — Eason Chan, League of Legends, and Hozier', credits: 'Soloists: Lesley Laurence, Ellie Mizushima · Arrangement: Chow Lik Yau, Lesley Laurence · Choreographers: Ellie Mizushima, Kiera Yap' }
+      ],
+      members: ['Chow Lik Yau','Milo Perkins','Evan Liu','Ken Sibal','Dion Cagape','Lesley Laurence','Nickolas Ho','Andrés Salvatierra Espinoza','Isabella Hurst','Avery Chang-Linenberg','Brooklyn Mercado','Kiera Yap','Emily Woo','Hanako Settle','Priyanshi Singh','Ellie Mizushima'],
+      video: 'IL20XYT9LWU',
+      gallery: ['images/events/2026/semis/img1.jpg','images/events/2026/semis/img2.jpg','images/events/2026/semis/img5.jpg','images/events/2026/semis/img6.jpg','images/events/2026/semis/img8.jpg','images/events/2026/semis/img25.jpg']
+    },
+    quarters2026: {
+      title: 'ICCA West Quarterfinals 2026', eyebrow: '1st Place · Quarterfinals',
+      date: "February 28th, 2026 · Fox Theatre @ Redwood City",
+      hero: 'images/events/2026/quarters/hero.jpg',
+      awards: ['1st Place - Quarterfinals', 'Best Vocal Percussion', 'Outstanding Soloist', 'Outstanding Arrangement'],
+      about: `LHP took home 1st place at the ICCA West Quarterfinals after performing our ICCA Competition set for the first time! <span class="name">Lik Yau Chow</span> won Outstanding Vocal Percussion AND Outstanding Arrangement, and <span class="name">Evan Liu</span> was awarded Outstanding Soloist.<br><br>This is the first time in history that LHP has placed so high at Quarterfinals!`,
+      setlist: [
+        { song: '"The Blade" — AURORA', credits: 'Soloist: Priyanshi Singh · Arrangement: Chow Lik Yau · Choreographers: Ellie Mizushima, Kiera Yap' },
+        { song: '"To Ashes & Blood" — Arcane, League of Legends, and Woodkid', credits: 'Soloist: Evan Liu · Arrangement: Chow Lik Yau · Choreographers: Ellie Mizushima, Kiera Yap' },
+        { song: '"这样很好[Isha\'s Song]/First Light" — Eason Chan, League of Legends, and Hozier', credits: 'Soloists: Lesley Laurence, Ellie Mizushima · Arrangement: Chow Lik Yau, Lesley Laurence · Choreographers: Ellie Mizushima, Kiera Yap' }
+      ],
+      members: ['Chow Lik Yau','Milo Perkins','Evan Liu','Ken Sibal','Dion Cagape','Lesley Laurence','Nickolas Ho','Andrés Salvatierra Espinoza','Isabella Hurst','Avery Chang-Linenberg','Brooklyn Mercado','Kiera Yap','Emily Woo','Hanako Settle','Priyanshi Singh','Ellie Mizushima'],
+      video: 'TRbWFYK3rdE',
+      gallery: ['images/events/2026/quarters/img1.jpg','images/events/2026/quarters/img2.jpg','images/events/2026/quarters/img5.jpg','images/events/2026/quarters/img16.jpg','images/events/2026/quarters/img18.jpg','images/events/2026/quarters/img20.jpg']
+    },
+    alotta2025: {
+      title: 'Alottacappella 2025', eyebrow: 'Alottacappella 2025',
+      date: "November 22nd & 23rd, 2025 · Khaira Lecture Hall, UC Davis",
+      hero: 'images/events/2025/alotta/hero.png',
+      awards: [],
+      about: `Alottacappella is LHP's annual showcase hosted in the Fall in which we invite groups from around California to come and perform at our show! This is a two day event in which different groups are present on different days.<br><br>This year the Saturday theme was Game Day, and the Sunday theme was Casino Night, and groups from all around were encouraged to dress according to theme.`,
+      setlist: [
+        { song: '"Your Idol" — Kpop Demon Hunters' }, { song: '"Crazy" — Gnarls Barkley' },
+        { song: '"Attention" — Charlie Puth' }, { song: '"Take Me to Church" — Hozier' },
+        { song: '"Ashes and Blood" — Arcane' }, { song: '"Yebba Mashup" (Alumni Song) — Yebba' }
+      ],
+      guestGroups: ['The Cleftomaniacs - UC Davis','Jhankaar - UC Davis','Ph Scale - Diablo Valley College','Acquire - UC Santa Cruz','The Spokes - UC Davis','The Lounge Lizards - UC Davis','Drawn to Scale - UC Berkeley','DeCadence - UC Berkeley','Cloud 9 - UC Santa Cruz'],
+      members: [],
+      video: null,
+      gallery: ['images/events/2025/alotta/img1.png','images/events/2025/alotta/img2.png','images/events/2025/alotta/img4.png','images/events/2025/alotta/img7.png','images/events/2025/alotta/img11.png','images/events/2025/alotta/img16.png']
+    },
+    otr2025: {
+      title: 'Off The Record 2025', eyebrow: 'Off The Record 2025',
+      date: "May 17th, 2025 · California Hall, UC Davis",
+      hero: 'images/events/2025/otr/hero.jpg',
+      awards: [],
+      about: `Off The Record was LHP's first show of its kind - a free LHP-focused spring show focused on showcasing all of the music we worked on the entire year, small groups &amp; solos, along with member-made merch available for purchase.<br><br>We also said goodbye to two of our beloved Class of 2025 seniors, <span class="name">Rounak Day</span> &amp; <span class="name">Noah Sifry</span>.`,
+      setlist: [
+        { song: '"Worth It" — RAYE' }, { song: '"Crazy/Take Me to Church (Mashup)" — Gnarls Barkley & Hozier' },
+        { song: '"Wildflower" — Billie Eilish' }, { song: '"Tum Hi Ho" — Arijit Singh' }, { song: '2025 ICCA Set' }
+      ],
+      members: [],
+      video: null,
+      gallery: ['images/events/2025/otr/img1.jpg','images/events/2025/otr/img2.jpg','images/events/2025/otr/img3.jpg','images/events/2025/otr/img4.jpg','images/events/2025/otr/img5.jpg','images/events/2025/otr/img6.jpg']
+    },
+    quarters2025: {
+      title: 'ICCA West Quarterfinals 2025', eyebrow: '3rd Place · Quarterfinals',
+      date: "February 8th, 2025 · Fox Theatre @ Redwood City",
+      hero: 'images/events/2025/quarters/hero.jpg',
+      awards: ['3rd Place - Quarterfinals', 'Outstanding Vocal Percussion'],
+      about: `LHP competed at the ICCA West Quarterfinals and took home 3rd place (AGAIN!). <span class="name">Lik Yau Chow</span> was awarded Outstanding Vocal Percussion.<br><br>We had 6 new babyplates perform at their first ICCA this round!`,
+      setlist: [
+        { song: '"West Coast" — OneRepublic', credits: 'Soloists: Brooklyn Mercado, Noah Sifry · Arrangement: Evan Liu · Choreographer: Kiera Yap' },
+        { song: '"Everything Matters" — AURORA', credits: 'Soloist: Kiera Yap · End trio: Rounak Dey, Isabella Hurst, Ellie Mizushima · Arrangement: Chow Lik Yau · Choreographer: Ellie Mizushima' },
+        { song: '"Fall In Line" — Christina Aguilera Feat. Demi Lovato', credits: 'Soloists: Ellie Mizushima, Alyza Gomez · Arrangement: Chow Lik Yau, Evan Liu · Choreographer: Ellie Mizushima' }
+      ],
+      members: ['Chow Lik Yau','Evan Liu','Rounak Dey','Ken Sibal','Ethan Liu','Noah Sifry','Nickolas Ho','Andrés Salvatierra Espinoza','Isabella Hurst','Brooklyn Mercado','Kiera Yap','Priyanshi Singh','Alyza Gomez','Ellie Mizushima'],
+      video: 'Je8K6QwMfH0',
+      gallery: ['images/events/2025/quarters/img1.jpg','images/events/2025/quarters/img2.jpg','images/events/2025/quarters/img5.jpg','images/events/2025/quarters/img6.jpg','images/events/2025/quarters/img12.jpg','images/events/2025/quarters/img14.jpg']
+    },
+    alotta2024: {
+      title: 'Alottacappella 2024', eyebrow: 'Alottacappella 2024',
+      date: "November 16th-17th, 2024 · California Hall, UC Davis",
+      hero: 'images/events/2024/alotta/hero.jpg',
+      awards: [],
+      about: `Alottacappella is LHP's annual showcase hosted in the Fall in which we invite groups from around California to come and perform at our show! This is a two day event in which different groups are present on different days.<br><br>This year, the theme on Saturday was Adam Sandler, and Sunday's theme was Black &amp; White. Guest groups wre encouraged to also participate in the theme.`,
+      setlist: [
+        { song: '"Double Life" — Pharrell Williams' }, { song: '"West Coast" — OneRepublic' },
+        { song: '"Hrs & Hrs" — Muni Long' }, { song: '"Pray" — Sam Smith' },
+        { song: '"Everything Matters" — Aurora' }, { song: '"Yebba Mashup" (Alumni Song) — Yebba' }
+      ],
+      guestGroups: ['DeCadence - UC Berkeley','Cloud 9 - UC Santa Cruz','Acquire - UC Santa Cruz','AiR - UC Berkeley','The Lounge Lizards - UC Davis','The Spokes - UC Davis','The Cleftomaniacs - UC Davis','Ph Scale - Diablo Valley College','Drawn to Scale - UC Berkeley'],
+      members: [],
+      video: null,
+      gallery: ['images/events/2024/alotta/img1.jpg','images/events/2024/alotta/img2.jpg','images/events/2024/alotta/img3.jpeg','images/events/2024/alotta/img4.jpg','images/events/2024/alotta/img5.jpeg','images/events/2024/alotta/img6.jpg']
+    },
+    quarters2024: {
+      title: 'ICCA West Quarterfinals 2024', eyebrow: '3rd Place · Quarterfinals',
+      date: "February 17th, 2024 · Fox Theatre @ Redwood City",
+      hero: 'images/events/2024/quarters/hero.jpeg',
+      awards: ['3rd Place - Quarterfinals', 'Outstanding Soloist'],
+      about: `LHP competed at the 2024 ICCA West Quarterfinals and took home 3rd. <span class="name">Alyza Gomez</span> was also awarded Outstanding Soloist!`,
+      setlist: [
+        { song: '"Plastic Hearts" — Miley Cyrus', credits: 'Soloist: Katelyn Chen · Arrangement: Gerard Tiña · Choreographers: Katelyn Chen &amp; Alyza Gomez' },
+        { song: '"Ultralight Beam/Pray" — Kanye West & Sam Smith', credits: 'Soloists: Shay Ledger &amp; Alyza Gomez · Arrangement: Gerard Tiña · Choreographers: Katelyn Chen &amp; Alyza Gomez' },
+        { song: '"Mount Everest" — Labrinth', credits: 'Soloists: Chow Lik Yau &amp; Gerard Tiña · Arrangement: Gerard Tiña · Choreographer: Ellie Mizushima' },
+        { song: '"Genius" — Sia, Diplo and Labrinth', credits: 'Soloists: Renee Gabrielle &amp; Shay Ledger · Arrangement: Gerard Tiña · Choreographer: Ellie Mizushima' }
+      ],
+      members: ['Chow Lik Yau','Joshua Huynh','Gerard Tiña','Evan Liu','Rounak Dey','Noah Sifry','Shay Ledger','Katelyn Chen','Renee Gabrielle','Linette Yoon','Kiera Yap','Priyanshi Singh','Alyza Gomez','Ellie Mizushima'],
+      video: 'V8Sy2wFJ18M',
+      gallery: ['images/events/2024/quarters/img1.jpeg','images/events/2024/quarters/img2.jpeg','images/events/2024/quarters/img3.jpeg']
+    }
+  };
+
+  const backdrop = document.getElementById('expand-backdrop');
+  const panel = document.getElementById('expand-panel');
+  const content = document.getElementById('panelContent');
+  const closeBtn = document.getElementById('closeBtn');
+  let activeCard = null;
+
+  function fullRect() {
+    const w = Math.min(window.innerWidth * 0.92, 1000);
+    const h = Math.min(window.innerHeight * 0.9, 900);
+    return { top: (window.innerHeight - h) / 2, left: (window.innerWidth - w) / 2, width: w, height: h };
+  }
+
+  function renderContent(ev) {
+    let html = `
+      <div class="panel-inner-hero">
+        <div class="photo-layer" style="background-image:url('${ev.hero}');"></div>
+        <div class="photo-dim"></div>
+        <div class="panel-eyebrow">${ev.eyebrow}</div>
+        <div class="panel-title">${ev.title}</div>
+        <div class="panel-date">${ev.date}</div>
+      </div>
+      <div class="panel-body-inner">
+        <span class="back-link-panel" id="backLinkPanel">← Back to Timeline</span>
+    `;
+
+    if (ev.awards.length) {
+      html += `<div class="panel-awards">${ev.awards.map(a => `<span class="panel-award">${a}</span>`).join('')}</div>`;
+    }
+
+    html += `<div class="panel-about">${ev.about}</div>`;
+
+    if (ev.setlist) {
+      html += `<div class="panel-section-title">Setlist</div><div class="panel-glass-box">`;
+      html += ev.setlist.map(s => `<div class="setlist-item"><h4>${s.song}</h4>${s.credits ? `<div class="credits">${s.credits}</div>` : ''}</div>`).join('');
+      html += `</div>`;
+    }
+
+    if (ev.guestGroups) {
+      html += `<div class="panel-section-title">Guest Groups</div><div class="panel-glass-box"><div class="member-pills">`;
+      html += ev.guestGroups.map(g => `<span class="member-pill">${g}</span>`).join('');
+      html += `</div></div>`;
+    }
+
+    if (ev.members.length) {
+      html += `<div class="panel-section-title">Member List</div><div class="member-pills">`;
+      html += ev.members.map(m => `<span class="member-pill">${m}</span>`).join('');
+      html += `</div>`;
+    }
+
+    if (ev.video) {
+      html += `<div class="panel-section-title">Watch the Performance</div><div class="panel-video"><iframe src="https://www.youtube.com/embed/${ev.video}" allowfullscreen></iframe></div>`;
+    }
+
+    if (ev.gallery && ev.gallery.length) {
+      html += `<div class="panel-section-title">Photos</div><div class="panel-gallery">`;
+      html += ev.gallery.map(g => `<img src="${g}" alt="${ev.title} photo">`).join('');
+      html += `</div>`;
+    }
+
+    html += `</div>`;
+    content.innerHTML = html;
+    document.getElementById('backLinkPanel').addEventListener('click', closeCard);
+  }
+
+  function openCard(cardEl, key) {
+    activeCard = cardEl;
+    const rect = cardEl.getBoundingClientRect();
+    renderContent(events[key]);
+
+    backdrop.classList.add('visible');
+    document.body.style.overflow = 'hidden';
+    panel.style.transition = 'none';
+    panel.style.top = rect.top + 'px';
+    panel.style.left = rect.left + 'px';
+    panel.style.width = rect.width + 'px';
+    panel.style.height = rect.height + 'px';
+    panel.style.borderRadius = '20px';
+    panel.style.display = 'block';
+    panel.offsetHeight;
+
+    const target = fullRect();
+    panel.style.transition = 'top 0.55s cubic-bezier(0.22, 1, 0.36, 1), left 0.55s cubic-bezier(0.22, 1, 0.36, 1), width 0.55s cubic-bezier(0.22, 1, 0.36, 1), height 0.55s cubic-bezier(0.22, 1, 0.36, 1), border-radius 0.55s ease';
+    panel.style.top = target.top + 'px';
+    panel.style.left = target.left + 'px';
+    panel.style.width = target.width + 'px';
+    panel.style.height = target.height + 'px';
+    panel.style.borderRadius = '26px';
+    panel.classList.add('expanded');
+  }
+
+  function closeCard() {
+    if (!activeCard) return;
+    const rect = activeCard.getBoundingClientRect();
+    panel.classList.remove('expanded');
+    backdrop.classList.remove('visible');
+    document.body.style.overflow = '';
+
+    panel.style.transition = 'top 0.4s cubic-bezier(0.4, 0, 0.2, 1), left 0.4s cubic-bezier(0.4, 0, 0.2, 1), width 0.4s cubic-bezier(0.4, 0, 0.2, 1), height 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-radius 0.4s ease';
+    panel.style.top = rect.top + 'px';
+    panel.style.left = rect.left + 'px';
+    panel.style.width = rect.width + 'px';
+    panel.style.height = rect.height + 'px';
+    panel.style.borderRadius = '20px';
+
+    setTimeout(() => { panel.style.display = 'none'; content.scrollTop = 0; }, 400);
+  }
+
+  document.querySelectorAll('.event-card').forEach(card => {
+    card.addEventListener('click', () => openCard(card, card.dataset.event));
+  });
+
+  closeBtn.addEventListener('click', closeCard);
+  backdrop.addEventListener('click', closeCard);
+
+  // BUG FIX: without this, the panel's position/size was only ever calculated
+  // once, at the moment you clicked to open it - resizing the browser window
+  // (e.g. snapping from half-screen to full-screen) while it was already open
+  // did nothing, since nothing was listening for that change.
+  window.addEventListener('resize', () => {
+    if (!panel.classList.contains('expanded')) return;
+    const target = fullRect();
+    panel.style.transition = 'top 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease';
+    panel.style.top = target.top + 'px';
+    panel.style.left = target.left + 'px';
+    panel.style.width = target.width + 'px';
+    panel.style.height = target.height + 'px';
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCard(); });
+</script>
+
+</body>
+</html>

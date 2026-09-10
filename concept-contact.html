@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us — The Liquid Hotplates — Glass Concept</title>
+<link rel="stylesheet" href="concept.css">
+<style>
+  .contact-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  .copy-feedback {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--blue-light);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+</style>
+</head>
+<body>
+
+  <div class="aura-field">
+    <div class="aura aura-a"></div>
+    <div class="aura aura-d" style="background: radial-gradient(circle, var(--orange), transparent 68%);"></div>
+  </div>
+  <div class="grain"></div>
+
+  <nav>
+    <div class="nav-left">
+      <img src="images/home-images/logo.png" alt="LHP Logo">
+      <span class="site-name">The Liquid Hotplates</span>
+    </div>
+    <div class="nav-pill">
+      <a href="concept-home.html">Home</a>
+      <a href="concept-members.html">Members</a>
+      <a href="concept-events.html">Events</a>
+      <a href="concept-music.html">Music</a>
+      <a href="concept-auditions.html">Auditions</a>
+      <a href="concept-contact.html" class="active">Contact Us</a>
+    </div>
+  </nav>
+
+  <div class="page-head" style="text-align: center; max-width: 700px; margin: 0 auto; padding-top: 10rem;">
+    <div class="eyebrow" style="text-align:center;">Get In Touch</div>
+    <h1>Contact Us!</h1>
+    <p style="margin-left:auto; margin-right:auto;">Questions, booking requests, or just want to say hi?<br><br>Reach out through either of these:</p>
+
+    <div class="contact-buttons">
+      <a href="https://instagram.com/theliquidhotplates" target="_blank" class="glass-btn">📸 Instagram</a>
+      <a href="mailto:theliquidhotplates@gmail.com" class="glass-btn" id="emailLink">✉️ Email Us</a>
+    </div>
+    <p class="copy-feedback" id="copyFeedback">Email copied to clipboard: theliquidhotplates@gmail.com</p>
+  </div>
+
+  <footer>&copy; 2026 The Liquid Hotplates — glass concept demo, not the live site</footer>
+
+<script>
+  // Same clipboard fallback as the real site's contactus.html - mailto: links
+  // aren't 100% reliable across every device, so this guarantees the email
+  // ends up somewhere useful regardless.
+  document.getElementById('emailLink').addEventListener('click', () => {
+    const email = 'theliquidhotplates@gmail.com';
+    const feedback = document.getElementById('copyFeedback');
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(email).then(() => {
+        feedback.style.opacity = '1';
+        setTimeout(() => { feedback.style.opacity = '0'; }, 4000);
+      }).catch(() => {});
+    }
+  });
+</script>
+
+</body>
+</html>

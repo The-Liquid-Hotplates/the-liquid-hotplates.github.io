@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Music — The Liquid Hotplates — Glass Concept</title>
+<link rel="stylesheet" href="concept.css">
+<style>
+  .spotify-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .spotify-embed {
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .placeholder-note {
+    text-align: center;
+    opacity: 0.55;
+    font-size: 0.9rem;
+    max-width: 60ch;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+  <div class="aura-field">
+    <div class="aura aura-a"></div>
+    <div class="aura aura-b"></div>
+    <div class="aura aura-d"></div>
+  </div>
+  <div class="grain"></div>
+
+  <nav>
+    <div class="nav-left">
+      <img src="images/home-images/logo.png" alt="LHP Logo">
+      <span class="site-name">The Liquid Hotplates</span>
+    </div>
+    <div class="nav-pill">
+      <a href="concept-home.html">Home</a>
+      <a href="concept-members.html">Members</a>
+      <a href="concept-events.html">Events</a>
+      <a href="concept-music.html" class="active">Music</a>
+      <a href="concept-auditions.html">Auditions</a>
+      <a href="concept-contact.html">Contact Us</a>
+    </div>
+  </nav>
+
+  <div class="page-head">
+    <div class="eyebrow">Listen</div>
+    <h1>Music</h1>
+    <p>Our recorded arrangements, straight from Spotify.</p>
+  </div>
+
+  <section class="section" style="padding-top: 1rem;">
+    <p class="placeholder-note">
+      [PLACEHOLDER - this whole page is a template. Swap the iframe src="..." links below for your real Spotify track/album/playlist embed links - open the release on Spotify, click Share → Embed track/album, and copy the link it gives you in place of the example one here.]
+    </p>
+    <div class="spotify-grid">
+      <iframe class="spotify-embed" src="https://open.spotify.com/embed/track/4cOdK2wGLETKBW3PvgPWqT" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <iframe class="spotify-embed" src="https://open.spotify.com/embed/track/4cOdK2wGLETKBW3PvgPWqT" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <iframe class="spotify-embed" src="https://open.spotify.com/embed/track/4cOdK2wGLETKBW3PvgPWqT" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+  </section>
+
+  <footer>&copy; 2026 The Liquid Hotplates — glass concept demo, not the live site</footer>
+
+</body>
+</html>

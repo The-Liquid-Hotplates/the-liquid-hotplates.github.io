@@ -1,0 +1,439 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap');
+
+:root {
+  --black: #050506;
+  --royal-blue: #0953EA;
+  --blue-light: #6fa8ff;
+  --orange: #FF6B35;
+  --off-white: #FFF7EF;
+  --glass-fill: rgba(255, 255, 255, 0.055);
+  --glass-fill-strong: rgba(255, 255, 255, 0.09);
+  --glass-edge: rgba(255, 255, 255, 0.14);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--off-white);
+  font-family: 'Bricolage Grotesque', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ============ AURORA FIELD (used behind non-photo pages) ============ */
+.aura-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aura {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(95px);
+}
+
+.aura-a {
+  width: 75vw; height: 75vw;
+  top: -25%; left: -18%;
+  background: radial-gradient(circle, var(--royal-blue), transparent 68%);
+  opacity: 0.75;
+  animation: drift-a 18s ease-in-out infinite alternate, pulse-a 6s ease-in-out infinite;
+}
+
+.aura-b {
+  width: 65vw; height: 65vw;
+  bottom: -28%; right: -18%;
+  background: radial-gradient(circle, var(--blue-light), transparent 68%);
+  opacity: 0.55;
+  animation: drift-b 21s ease-in-out infinite alternate, pulse-b 7.5s ease-in-out infinite;
+}
+
+.aura-c {
+  width: 48vw; height: 48vw;
+  top: 32%; left: 40%;
+  background: radial-gradient(circle, var(--orange), transparent 68%);
+  opacity: 0.4;
+  animation: drift-c 15s ease-in-out infinite alternate, pulse-c 5s ease-in-out infinite;
+}
+
+.aura-d {
+  width: 40vw; height: 40vw;
+  top: 5%; right: 5%;
+  background: radial-gradient(circle, var(--blue-light), transparent 68%);
+  opacity: 0.35;
+  animation: drift-d 24s ease-in-out infinite alternate, pulse-a 8s ease-in-out infinite;
+}
+
+@keyframes drift-a { to { transform: translate(8%, 10%) scale(1.18); } }
+@keyframes drift-b { to { transform: translate(-10%, -8%) scale(1.22); } }
+@keyframes drift-c { to { transform: translate(-14%, 12%) scale(1.15); } }
+@keyframes drift-d { to { transform: translate(-10%, 14%) scale(1.1); } }
+
+/* Subtle breathing on top of the drift - not just moving, but pulsing in
+   intensity too, so the whole field feels more alive rather than static
+   blobs that happen to glide around. */
+@keyframes pulse-a { 0%, 100% { opacity: 0.75; } 50% { opacity: 0.55; } }
+@keyframes pulse-b { 0%, 100% { opacity: 0.55; } 50% { opacity: 0.38; } }
+@keyframes pulse-c { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.24; } }
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============ NAV ============ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 2rem;
+}
+
+.nav-left {
+  position: absolute;
+  left: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.nav-left img {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+}
+
+.nav-left .site-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--off-white);
+}
+
+.nav-pill {
+  display: flex;
+  gap: 0.25rem;
+  background: rgba(5, 5, 6, 0.5);
+  border: 1px solid var(--glass-edge);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 50px;
+  padding: 0.35rem;
+}
+
+.nav-pill a {
+  color: var(--off-white);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.55rem 1.3rem;
+  border-radius: 50px;
+  transition: background 0.25s ease, color 0.25s ease;
+  white-space: nowrap;
+}
+
+.nav-pill a.active,
+.nav-pill a:hover {
+  background: rgba(9, 83, 234, 0.35);
+}
+
+/* ============ PHOTO HERO (homepage) ============ */
+.photo-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 2rem 2rem 5rem;
+  overflow: hidden;
+}
+
+.photo-hero .photo-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 30%;
+  z-index: 0;
+}
+
+.photo-hero .photo-dim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5,5,6,0.18) 0%, rgba(5,5,6,0.12) 40%, rgba(5,5,6,0.75) 100%); /* CHANGE: lightened from 0.35/0.25/0.92 */
+  z-index: 1;
+}
+
+.photo-hero .aura {
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+
+.photo-hero-inner {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 540px; /* CHANGE: was 720px - narrower so it's less likely to sit directly over faces */
+  text-align: center;
+  padding: 2rem 1.75rem; /* CHANGE: was 2.75rem 2rem - tighter, less coverage */
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-edge);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-radius: 28px;
+}
+
+.photo-hero-inner .eyebrow {
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: var(--blue-light);
+  margin-bottom: 1rem;
+}
+
+.photo-hero-inner h1 {
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+.photo-hero-inner p {
+  margin-top: 1rem;
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  opacity: 0.8;
+}
+
+/* ============ PLAIN PAGE HERO (Members/Events/Contact) ============ */
+.page-head {
+  position: relative;
+  z-index: 2;
+  padding: 9rem 6vw 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-head .eyebrow {
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: var(--blue-light);
+  margin-bottom: 0.75rem;
+}
+
+.page-head h1 {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.page-head p {
+  margin-top: 0.85rem;
+  opacity: 0.65;
+  max-width: 50ch;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* ============ GLASS BUTTON ============ */
+.glass-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1rem 2.2rem;
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-edge);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 50px;
+  color: var(--off-white);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.glass-btn:hover {
+  background: rgba(9, 83, 234, 0.28);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 50px rgba(9, 83, 234, 0.3);
+}
+
+/* ============ SECTIONS ============ */
+.section {
+  position: relative;
+  z-index: 2;
+  padding: 5rem 6vw;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 2.5rem;
+}
+
+/* ============ GLASS CARD (generic) ============ */
+.glass-card {
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-edge);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 20px;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+footer {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 3rem;
+  opacity: 0.4;
+  font-size: 0.85rem;
+}
+
+/* ============ ACCORDION (About + Competing/Recording/Performing) ============ */
+.accordion-grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.accordion-about .eyebrow {
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  color: var(--blue-light);
+  margin-bottom: 1rem;
+}
+
+.accordion-about p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  opacity: 0.8;
+}
+
+.accordion-item {
+  border-top: 1px solid var(--glass-edge);
+}
+
+.accordion-item:last-child {
+  border-bottom: 1px solid var(--glass-edge);
+}
+
+.accordion-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  color: var(--off-white);
+  font-family: inherit;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  padding: 1.5rem 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.accordion-icon {
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--blue-light);
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.accordion-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s ease, opacity 0.35s ease, padding-bottom 0.45s ease;
+  opacity: 0;
+  padding-bottom: 0;
+}
+
+.accordion-panel p {
+  opacity: 0.7;
+  line-height: 1.7;
+  font-size: 1.02rem;
+  max-width: 60ch;
+}
+
+.accordion-item.open .accordion-panel {
+  max-height: 400px;
+  opacity: 1;
+  padding-bottom: 2rem;
+}
+
+@media (max-width: 800px) {
+  .accordion-grid {
+    grid-template-columns: 1fr;
+  }
+  .accordion-header {
+    font-size: 1.2rem;
+  }
+}
+
+/* ============ THROUGH THE YEARS GALLERY ============ */
+/* Masonry via CSS columns, not a forced-crop grid - each photo keeps its
+   real aspect ratio (no object-fit:cover cutting people off), it just packs
+   into columns at whatever height it naturally wants to be. */
+.year-gallery {
+  columns: 4 220px;
+  column-gap: 1.25rem;
+}
+
+.year-tile {
+  position: relative;
+  break-inside: avoid;
+  margin-bottom: 1.25rem;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--glass-edge);
+}
+
+.year-tile img {
+  width: 100%;
+  display: block;
+  transition: transform 0.5s ease, filter 0.4s ease;
+}
+
+.year-tile:hover img {
+  transform: scale(1.06);
+  filter: brightness(0.55);
+}
+
+.year-tile-caption {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  opacity: 0;
+  background: rgba(5, 5, 6, 0.35);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: opacity 0.35s ease;
+}
+
+.year-tile:hover .year-tile-caption {
+  opacity: 1;
+}
