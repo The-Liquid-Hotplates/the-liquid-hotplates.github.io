@@ -196,6 +196,7 @@
 </head>
 <body>
 
+  <!-- background-->
   <div class="aura-field">
     <div class="aura aura-a"></div>
     <div class="aura aura-b"></div>
@@ -203,6 +204,7 @@
   </div>
   <div class="grain"></div>
 
+  <!--nav bar + logo -->
   <nav>
     <div class="nav-left">
       <img src="images/home-images/logo.png" alt="LHP Logo">
@@ -218,6 +220,7 @@
     </div>
   </nav>
 
+  <!-- ---------------------------------------- TIMELINE STARTS ------------------------------------------------>
   <div class="page-head">
     <div class="eyebrow">The Timeline</div>
     <h1>Events</h1>
@@ -235,11 +238,11 @@
           <div class="date">MAY 16, 2026</div>
         </div>
         <div class="event-card glass-card" data-event="semis2026">
-          <div class="info"><h3>ICCA West Semifinals 2026</h3><p>LHP took home 3rd place &amp; Outstanding Soloist at Semifinals!</p></div>
+          <div class="info"><h3>ICCA West Semifinals 2026</h3><p>LHP took home 3rd place & Outstanding Soloist at Semifinals!</p></div>
           <div class="date">MAR 21, 2026</div>
         </div>
         <div class="event-card glass-card" data-event="quarters2026">
-          <div class="info"><h3>ICCA West Quarterfinals 2026</h3><p>LHP placed 1st at Quarterfinals and took home Outstanding Arrangement, Outstanding Vocal Percussionist, &amp; Outstanding Soloist!</p></div>
+          <div class="info"><h3>ICCA West Quarterfinals 2026</h3><p>LHP placed 1st at Quarterfinals and took home Outstanding Arrangement, Outstanding Vocal Percussionist, & Outstanding Soloist!</p></div>
           <div class="date">FEB 28, 2026</div>
         </div>
       </div>
@@ -248,7 +251,7 @@
         <div class="year-heading">2025</div>
         <div class="event-card glass-card" data-event="alotta2025">
           <div class="info"><h3>Alottacappella 2025</h3><p>LHP's annual show featuring groups across the state!</p></div>
-          <div class="date">NOV 22–23, 2025</div>
+          <div class="date">NOV 22-23, 2025</div>
         </div>
         <div class="event-card glass-card" data-event="otr2025">
           <div class="info"><h3>Off The Record 2025</h3><p>First free OTR show in history showcasing music we've worked on throughout the year!</p></div>
@@ -264,10 +267,10 @@
         <div class="year-heading">2024</div>
         <div class="event-card glass-card" data-event="alotta2024">
           <div class="info"><h3>Alottacappella 2024</h3><p>LHP's annual show featuring groups across the state!</p></div>
-          <div class="date">NOV 16–17, 2024</div>
+          <div class="date">NOV 16-17, 2024</div>
         </div>
         <div class="event-card glass-card" data-event="quarters2024">
-          <div class="info"><h3>ICCA West Quarterfinals 2024</h3><p>LHP placed 3rd at Quarterfinals &amp; took home Outstanding Soloist!</p></div>
+          <div class="info"><h3>ICCA West Quarterfinals 2024</h3><p>LHP placed 3rd at Quarterfinals & took home Outstanding Soloist!</p></div>
           <div class="date">FEB 17, 2024</div>
         </div>
       </div>
@@ -277,6 +280,7 @@
 
   <footer>&copy; 2026 The Liquid Hotplates</footer>
 
+  <!-- --------------------------------------------------------- TIMELINE PAGES ------------------------------------------------->
   <!-- clicked on the timeline -> event pages -->
   <div id="expand-backdrop"></div>
   <div id="expand-panel">
@@ -284,7 +288,8 @@
     <div class="panel-content" id="panelContent"></div>
   </div>
 
-<script>
+<!-- OTR 2026 -->
+<script> //this means we are now in javascript :p
   const events = {
     otr2026: {
       title: 'Off The Record 2026', eyebrow: 'Off The Record 2026',
@@ -295,12 +300,12 @@
         This year, we performed various songs arranged by many members in the group, 
         along with our award-winning ICCA set. We also had a variety of cute and crafty 
         member-created merch!<br><br>We also said goodbye to our Class of 2026 Seniors - 
-        <span class="name">Ellie Mizushima</span> &amp; <span class="name">Priyanshi Singh</span>!`,
+        <span class="name">Ellie Mizushima</span> & <span class="name">Priyanshi Singh</span>!`,
       setlist: [
-        { song: '"Attention" — Charlie Puth' },
-        { song: '"Jealous" — Labrinth' },
-        { song: '"Here Comes the Sun" — The Beatles' },
-        { song: '"Night" — Keshi' },
+        { song: '"Attention" - Charlie Puth' },
+        { song: '"Jealous" - Labrinth' },
+        { song: '"Here Comes the Sun" - The Beatles' },
+        { song: '"Night" - Keshi' },
         { song: 'ICCA Set' }
       ],
       members: [],
@@ -315,6 +320,8 @@
       'images/events/2026/otr/img8.jpg',
       'images/events/2026/otr/img9.jpg']
     },
+  
+  //SEMIS 2026
     semis2026: {
       title: 'ICCA West Semifinals 2026', eyebrow: '3rd Place · Semifinals',
       date: "March 21st, 2026 · Fox Theatre @ Redwood City",
@@ -328,11 +335,11 @@
                 class="name">Lesley Laurence</span>)!<br><br>We also got 
                 amazing shots of our set by Jake Young (pictured below)!`,
       setlist: [
-        { song: '"The Blade" — AURORA', 
+        { song: '"The Blade" - AURORA', 
             credits: 'Soloist: Priyanshi Singh · Arrangement: Chow Lik Yau · Choreographers: Ellie Mizushima, Kiera Yap' },
-        { song: '"To Ashes & Blood" — Arcane, League of Legends, and Woodkid', 
+        { song: '"To Ashes & Blood" - Arcane, League of Legends, and Woodkid', 
             credits: 'Soloist: Evan Liu · Arrangement: Chow Lik Yau · Choreographers: Ellie Mizushima, Kiera Yap' },
-        { song: '"这样很好[Isha\'s Song]/First Light" — Eason Chan, League of Legends, and Hozier', 
+        { song: '"这样很好[Isha\'s Song]/First Light" - Eason Chan, League of Legends, and Hozier', 
             credits: 'Soloists: Lesley Laurence, Ellie Mizushima · Arrangement: Chow Lik Yau, Lesley Laurence · Choreographers: Ellie Mizushima, Kiera Yap' }
       ],
       members: ['Chow Lik Yau',
@@ -387,6 +394,8 @@
       'images/events/2026/semis/img33.jpg',
     ]
     },
+
+    //QUARTERS 2026
     quarters2026: {
       title: 'ICCA West Quarterfinals 2026', eyebrow: '1st Place · Quarterfinals',
       date: "February 28th, 2026 · Fox Theatre @ Redwood City",
@@ -403,11 +412,11 @@
         Soloist.<br><br>This is the first time in history that LHP has 
         placed so high at Quarterfinals!`,
       setlist: [
-        { song: '"The Blade" — AURORA', 
+        { song: '"The Blade" - AURORA', 
           credits: 'Soloist: Priyanshi Singh · Arrangement: Chow Lik Yau · Choreographers: Ellie Mizushima, Kiera Yap' },
-        { song: '"To Ashes & Blood" — Arcane, League of Legends, and Woodkid', 
+        { song: '"To Ashes & Blood" - Arcane, League of Legends, and Woodkid', 
           credits: 'Soloist: Evan Liu · Arrangement: Chow Lik Yau · Choreographers: Ellie Mizushima, Kiera Yap' },
-        { song: '"这样很好[Isha\'s Song]/First Light" — Eason Chan, League of Legends, and Hozier', 
+        { song: '"这样很好[Isha\'s Song]/First Light" - Eason Chan, League of Legends, and Hozier', 
           credits: 'Soloists: Lesley Laurence, Ellie Mizushima · Arrangement: Chow Lik Yau, Lesley Laurence · Choreographers: Ellie Mizushima, Kiera Yap' }
       ],
       members: ['Chow Lik Yau',
@@ -450,6 +459,8 @@
         'images/events/2026/quarters/img21.jpg',
       ]
     },
+
+    //ALOTTA 2025
     alotta2025: {
       title: 'Alottacappella 2025', eyebrow: 'Alottacappella 2025',
       date: "November 22nd & 23rd, 2025 · Khaira Lecture Hall, UC Davis",
@@ -457,12 +468,12 @@
       awards: [],
       about: `Alottacappella is LHP's annual showcase hosted in the Fall in which we invite groups from around California to come and perform at our show! This is a two day event in which different groups are present on different days.<br><br>This year the Saturday theme was Game Day, and the Sunday theme was Casino Night, and groups from all around were encouraged to dress according to theme.`,
       setlist: [
-        { song: '"Your Idol" — Kpop Demon Hunters' }, 
-        { song: '"Crazy" — Gnarls Barkley' },
-        { song: '"Attention" — Charlie Puth' }, 
-        { song: '"Take Me to Church" — Hozier' },
-        { song: '"Ashes and Blood" — Arcane' }, 
-        { song: '"Yebba Mashup" (Alumni Song) — Yebba' }
+        { song: '"Your Idol" - Kpop Demon Hunters' }, 
+        { song: '"Crazy" - Gnarls Barkley' },
+        { song: '"Attention" - Charlie Puth' }, 
+        { song: '"Take Me to Church" - Hozier' },
+        { song: '"Ashes and Blood" - Arcane' }, 
+        { song: '"Yebba Mashup" (Alumni Song) - Yebba' }
       ],
       guestGroups: ['The Cleftomaniacs - UC Davis',
         'Jhankaar - UC Davis',
@@ -495,6 +506,8 @@
         'images/events/2025/alotta/img18.png'
       ]
     },
+
+    //OTR 2025
     otr2025: {
       title: 'Off The Record 2025', eyebrow: 'Off The Record 2025',
       date: "May 17th, 2025 · California Hall, UC Davis",
@@ -509,10 +522,10 @@
       Class of 2025 seniors, <span class="name">Rounak Day</span> &
       <span class="name">Noah Sifry</span>.`,
       setlist: [
-        { song: '"Worth It" — RAYE' }, 
-        { song: '"Crazy/Take Me to Church (Mashup)" — Gnarls Barkley & Hozier' },
-        { song: '"Wildflower" — Billie Eilish' }, 
-        { song: '"Tum Hi Ho" — Arijit Singh' }, 
+        { song: '"Worth It" - RAYE' }, 
+        { song: '"Crazy/Take Me to Church (Mashup)" - Gnarls Barkley & Hozier' },
+        { song: '"Wildflower" - Billie Eilish' }, 
+        { song: '"Tum Hi Ho" - Arijit Singh' }, 
         { song: '2025 ICCA Set' }
       ],
       members: [],
@@ -525,6 +538,8 @@
       'images/events/2025/otr/img6.jpg',
       'images/events/2025/otr/img7.jpg']
     },
+
+    //QUARTERS 2025
     quarters2025: {
       title: 'ICCA West Quarterfinals 2025', eyebrow: '3rd Place · Quarterfinals',
       date: "February 8th, 2025 · Fox Theatre @ Redwood City",
@@ -536,11 +551,11 @@
       was awarded Outstanding Vocal Percussion.<br><br>We had 6 new 
       babyplates perform at their first ICCA this round!`,
       setlist: [
-        { song: '"West Coast" — OneRepublic', 
+        { song: '"West Coast" - OneRepublic', 
           credits: 'Soloists: Brooklyn Mercado, Noah Sifry · Arrangement: Evan Liu · Choreographer: Kiera Yap' },
-        { song: '"Everything Matters" — AURORA', 
+        { song: '"Everything Matters" - AURORA', 
           credits: 'Soloist: Kiera Yap · End trio: Rounak Dey, Isabella Hurst, Ellie Mizushima · Arrangement: Chow Lik Yau · Choreographer: Ellie Mizushima' },
-        { song: '"Fall In Line" — Christina Aguilera Feat. Demi Lovato', 
+        { song: '"Fall In Line" - Christina Aguilera Feat. Demi Lovato', 
           credits: 'Soloists: Ellie Mizushima, Alyza Gomez · Arrangement: Chow Lik Yau, Evan Liu · Choreographer: Ellie Mizushima' }
       ],
       members: ['Chow Lik Yau',
@@ -577,6 +592,8 @@
         'images/events/2025/quarters/img18.jpg'
       ]
     },
+
+    //ALOTTA 2024
     alotta2024: {
       title: 'Alottacappella 2024', eyebrow: 'Alottacappella 2024',
       date: "November 16th-17th, 2024 · California Hall, UC Davis",
@@ -587,15 +604,15 @@
         and perform at our show! This is a two day event in which 
         different groups are present on different days.<br><br>This 
         year, the theme on Saturday was Adam Sandler, and Sunday's
-        theme was Black &amp; White. Guest groups wre encouraged to 
+        theme was Black & White. Guest groups wre encouraged to 
         also participate in the theme.`,
       setlist: [
-        { song: '"Double Life" — Pharrell Williams' }, 
-        { song: '"West Coast" — OneRepublic' },
-        { song: '"Hrs & Hrs" — Muni Long' }, 
-        { song: '"Pray" — Sam Smith' },
-        { song: '"Everything Matters" — Aurora' }, 
-        { song: '"Yebba Mashup" (Alumni Song) — Yebba' }
+        { song: '"Double Life" - Pharrell Williams' }, 
+        { song: '"West Coast" - OneRepublic' },
+        { song: '"Hrs & Hrs" - Muni Long' }, 
+        { song: '"Pray" - Sam Smith' },
+        { song: '"Everything Matters" - Aurora' }, 
+        { song: '"Yebba Mashup" (Alumni Song) - Yebba' }
       ],
       guestGroups: ['DeCadence - UC Berkeley',
         'Cloud 9 - UC Santa Cruz',
@@ -618,6 +635,8 @@
       'images/events/2024/alotta/img8.jpg'
     ]
     },
+
+    //QUARTERS 2024
     quarters2024: {
       title: 'ICCA West Quarterfinals 2024', eyebrow: '3rd Place · Quarterfinals',
       date: "February 17th, 2024 · Fox Theatre @ Redwood City",
@@ -627,13 +646,13 @@
       home 3rd. <span class="name">Alyza Gomez</span> was also awarded 
       Outstanding Soloist!`,
       setlist: [
-        { song: '"Plastic Hearts" — Miley Cyrus', 
+        { song: '"Plastic Hearts" - Miley Cyrus', 
           credits: 'Soloist: Katelyn Chen · Arrangement: Gerard Tiña · Choreographers: Katelyn Chen & Alyza Gomez' },
-        { song: '"Ultralight Beam/Pray" — Kanye West & Sam Smith', 
+        { song: '"Ultralight Beam/Pray" - Kanye West & Sam Smith', 
           credits: 'Soloists: Shay Ledger & Alyza Gomez · Arrangement: Gerard Tiña · Choreographers: Katelyn Chen & Alyza Gomez' },
-        { song: '"Mount Everest" — Labrinth', 
-          credits: 'Soloists: Chow Lik Yau &amp; Gerard Tiña · Arrangement: Gerard Tiña · Choreographer: Ellie Mizushima' },
-        { song: '"Genius" — Sia, Diplo and Labrinth', 
+        { song: '"Mount Everest" - Labrinth', 
+          credits: 'Soloists: Chow Lik Yau & Gerard Tiña · Arrangement: Gerard Tiña · Choreographer: Ellie Mizushima' },
+        { song: '"Genius" - Sia, Diplo and Labrinth', 
           credits: 'Soloists: Renee Gabrielle & Shay Ledger · Arrangement: Gerard Tiña · Choreographer: Ellie Mizushima' }
       ],
       members: ['Chow Lik Yau',
@@ -656,6 +675,8 @@
       'images/events/2024/quarters/img3.jpeg']
     }
   };
+
+  //IGNORE BELOW
 
   const backdrop = document.getElementById('expand-backdrop');
   const panel = document.getElementById('expand-panel');
@@ -771,10 +792,8 @@
   closeBtn.addEventListener('click', closeCard);
   backdrop.addEventListener('click', closeCard);
 
-  // BUG FIX: without this, the panel's position/size was only ever calculated
-  // once, at the moment you clicked to open it - resizing the browser window
-  // (e.g. snapping from half-screen to full-screen) while it was already open
-  // did nothing, since nothing was listening for that change.
+  // BUG FIX: the panel's position/size was only ever calculated once
+  // when you opened it creating resizing bugs --> fixed now
   window.addEventListener('resize', () => {
     if (!panel.classList.contains('expanded')) return;
     const target = fullRect();

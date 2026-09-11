@@ -9,6 +9,7 @@
 </head>
 <body>
 
+  <!--nav bar + logo -->
   <nav>
     <div class="nav-pill">
       <a href="index.html" class="active">Home</a>
@@ -20,11 +21,7 @@
     </div>
   </nav>
 
-  <!-- HERO: real photo as the base layer, dimmed + aurora blended on top,
-       then a frosted glass panel holding the title sits over all of it -
-       so the photo is still the star, the glass just adds depth on top of
-       it instead of replacing it. Swap images/home-images/home_img.jpg for the
-       real photo. -->
+  <!-- HERO:-->
   <section class="photo-hero">
     <div class="photo-layer" style="background-image: url('images/home-images/home_img.jpg');"></div>
     <div class="photo-dim"></div>
@@ -38,9 +35,7 @@
 
   <div class="grain"></div>
 
-  <!-- About + Accordion - two-column layout: About text on the left, an
-       expanding accordion on the right (Competing / Recording / Performing).
-       "Recording" ties into the new Music tab - see concept-music.html. -->
+  <!-- About + Accordion -->
   <section class="section accordion-section">
     <div class="accordion-grid">
       <div class="accordion-about">
@@ -63,7 +58,8 @@
       </div>
 
       <div class="accordion-list">
-
+        
+        <!-- we compete -->
         <div class="accordion-item open" data-item>
           <button class="accordion-header">
             <span>We Compete</span>
@@ -81,6 +77,7 @@
           </div>
         </div>
 
+        <!-- we record -->
         <div class="accordion-item" data-item>
           <button class="accordion-header">
             <span>We Record</span>
@@ -89,12 +86,13 @@
           <div class="accordion-panel">
             <p>We record our original arrangements some competition seasons. 
               
-              Check out our latest releases on Spotify, 
+              Check out our latest releases on Spotify & YouTube,
               with more on the way!</p>
-            <a href="music.html" class="glass-btn" style="margin-top:1.25rem; padding:0.7rem 1.5rem; font-size:0.85rem;">Listen on Spotify</a>
+            <a href="music.html" class="glass-btn" style="margin-top:1.25rem; padding:0.7rem 1.5rem; font-size:0.85rem;">Listen to Us!</a>
           </div>
         </div>
 
+        <!-- we perform -->
         <div class="accordion-item" data-item>
           <button class="accordion-header">
             <span>We Perform</span>
@@ -113,6 +111,7 @@
           </div>
         </div>
 
+        <!-- community -->
         <div class="accordion-item" data-item>
           <button class="accordion-header">
             <span>Community</span>
@@ -133,6 +132,7 @@
           </div>
         </div>
 
+        <!-- joining -->
         <div class="accordion-item" data-item>
           <button class="accordion-header">
             <span>Joining</span>
@@ -155,8 +155,7 @@
     </div>
   </section>
 
-  <!-- LHP Through The Years - uniform grid instead of masonry, but same
-       "glass tile + hover caption" language as the rest of the site. -->
+  <!-- LHP Through The Years masonry-->
   <section class="section">
     <h2 style="text-align:center;">LHP Through The Years</h2>
     <div class="year-gallery">
@@ -267,6 +266,7 @@
 
   <footer>&copy; 2026 The Liquid Hotplates</footer>
 
+<!-- ignore javascript below -->
 <script>
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduceMotion) {
@@ -280,7 +280,7 @@
     });
   }
 
-  // Accordion - only one section open at a time, matching the reference.
+  // accordion - only one section open at a time
   document.querySelectorAll('[data-item]').forEach(item => {
     item.querySelector('.accordion-header').addEventListener('click', () => {
       const alreadyOpen = item.classList.contains('open');

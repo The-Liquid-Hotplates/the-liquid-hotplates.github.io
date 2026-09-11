@@ -25,12 +25,14 @@
 </head>
 <body>
 
+  <!-- background-->
   <div class="aura-field">
     <div class="aura aura-a"></div>
     <div class="aura aura-d" style="background: radial-gradient(circle, var(--orange), transparent 68%);"></div>
   </div>
   <div class="grain"></div>
 
+  <!--nav bar + logo -->
   <nav>
     <div class="nav-left">
       <img src="images/home-images/logo.png" alt="LHP Logo">
@@ -46,6 +48,7 @@
     </div>
   </nav>
 
+  <!-- body content -->
   <div class="page-head" style="text-align: center; max-width: 700px; margin: 0 auto; padding-top: 10rem;">
     <div class="eyebrow" style="text-align:center;">Get In Touch</div>
     <h1>Contact Us!</h1>
@@ -60,9 +63,7 @@
   <footer>&copy; 2026 The Liquid Hotplates</footer>
 
 <script>
-  // Same clipboard fallback as the real site's contactus.html - mailto: links
-  // aren't 100% reliable across every device, so this guarantees the email
-  // ends up somewhere useful regardless.
+  // copied email to clipboard as failsafe for flopped mailto:
   document.getElementById('emailLink').addEventListener('click', () => {
     const email = 'theliquidhotplates@gmail.com';
     const feedback = document.getElementById('copyFeedback');
