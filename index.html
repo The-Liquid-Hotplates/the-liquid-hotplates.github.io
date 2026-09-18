@@ -29,7 +29,7 @@
     <div class="aura aura-c" style="top:60%; right:95%; bottom:auto;"></div>
     <div class="photo-hero-inner">
       <h1>The Liquid Hotplates</h1>
-      <p>UC Davis's HOTTEST acapella group</p>
+      <p>The HOTTEST A Cappella group at UC Davis</p>
     </div>
   </section>
 
@@ -298,6 +298,51 @@
       }
     });
   });
+</script>
+
+<!-- ignore this JS too -> for gallery going in chronological order-->
+ <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const gallery = document.querySelector('.year-gallery');
+  if (!gallery) return;
+
+  function getColumnCount() {
+    const w = window.innerWidth;
+    if (w < 500) return 1;
+    if (w < 750) return 2;
+    if (w < 1000) return 3;
+    return 4;
+  }
+
+  function layoutGallery() {
+    // grab every photo in its current code order before we rearrange anything
+    const tiles = Array.from(gallery.querySelectorAll('.year-tile'));
+    if (!tiles.length) return;
+    const numCols = getColumnCount();
+
+    gallery.innerHTML = '';
+    const columns = [];
+    for (let i = 0; i < numCols; i++) {
+      const col = document.createElement('div');
+      col.className = 'gallery-column';
+      gallery.appendChild(col);
+      columns.push(col);
+    }
+
+    // this is the key part - photo 1 goes in column 1, photo 2 in column 2,
+    // etc., wrapping back to column 1 once it runs out of columns - so code
+    // order always reads left-to-right, top-to-bottom
+    tiles.forEach((tile, i) => columns[i % numCols].appendChild(tile));
+  }
+
+  layoutGallery();
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(layoutGallery, 200);
+  });
+});
 </script>
 
 </body>

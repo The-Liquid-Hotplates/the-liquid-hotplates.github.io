@@ -183,8 +183,9 @@
   .panel-video { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-edge); }
   .panel-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; }
 
-  .panel-gallery { columns: 3 200px; column-gap: 0.9rem; }
-  .panel-gallery img { width: 100%; display: block; break-inside: avoid; margin-bottom: 0.9rem; border-radius: 12px; }
+  .panel-gallery { display: flex; gap: 0.9rem; }
+  .panel-gallery-column { display: flex; flex-direction: column; gap: 0.9rem; flex: 1; min-width: 0; }
+  .panel-gallery img { width: 100%; display: block; border-radius: 12px; }
 
   .back-link-panel {
     display: inline-flex; align-items: center; gap: 0.4rem;
@@ -684,10 +685,38 @@
   const closeBtn = document.getElementById('closeBtn');
   let activeCard = null;
 
-  function fullRect() {
+    function fullRect() {
     const w = Math.min(window.innerWidth * 0.92, 1000);
     const h = Math.min(window.innerHeight * 0.9, 900);
     return { top: (window.innerHeight - h) / 2, left: (window.innerWidth - w) / 2, width: w, height: h };
+  }
+
+  // same left-to-right (code order) fill logic as the homepage gallery,
+  // applied to the event popup's photo gallery
+  function getGalleryColumnCount() {
+    const w = window.innerWidth;
+    if (w < 600) return 1;
+    if (w < 900) return 2;
+    return 3;
+  }
+
+  function layoutPanelGallery() {
+    const gallery = document.querySelector('#panelContent .panel-gallery');
+    if (!gallery) return;
+    const tiles = Array.from(gallery.querySelectorAll('img'));
+    if (!tiles.length) return;
+    const numCols = getGalleryColumnCount();
+
+    gallery.innerHTML = '';
+    const columns = [];
+    for (let i = 0; i < numCols; i++) {
+      const col = document.createElement('div');
+      col.className = 'panel-gallery-column';
+      gallery.appendChild(col);
+      columns.push(col);
+    }
+
+    tiles.forEach((tile, i) => columns[i % numCols].appendChild(tile));
   }
 
   function renderContent(ev) {
@@ -740,6 +769,7 @@
     html += `</div>`;
     content.innerHTML = html;
     document.getElementById('backLinkPanel').addEventListener('click', closeCard);
+    layoutPanelGallery();
   }
 
   function openCard(cardEl, key) {
@@ -802,6 +832,7 @@
     panel.style.left = target.left + 'px';
     panel.style.width = target.width + 'px';
     panel.style.height = target.height + 'px';
+    layoutPanelGallery();
   });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCard(); });
 </script>

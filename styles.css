@@ -403,14 +403,19 @@ footer {
    real aspect ratio (no object-fit:cover cutting people off), it just packs
    into columns at whatever height it naturally wants to be. */
 .year-gallery {
-  columns: 3 220px;
-  column-gap: 1.25rem;
+  display: flex;
+  gap: 1.25rem;
+}
+
+.year-gallery .gallery-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  flex: 1;
 }
 
 .year-tile {
   position: relative;
-  break-inside: avoid;
-  margin-bottom: 1.25rem;
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid var(--glass-edge);
