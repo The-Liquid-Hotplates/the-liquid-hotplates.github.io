@@ -272,36 +272,6 @@
 
 <!-- ignore javascript below -->
 <script>
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduceMotion) {
-    document.querySelectorAll('.aura').forEach((el, i) => {
-      window.addEventListener('mousemove', (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5);
-        const y = (e.clientY / window.innerHeight - 0.5);
-        const rate = 15 + i * 10;
-        el.style.transform = `translate(${x * rate}px, ${y * rate}px)`;
-      });
-    });
-  }
-
-  // accordion - only one section open at a time
-  document.querySelectorAll('[data-item]').forEach(item => {
-    item.querySelector('.accordion-header').addEventListener('click', () => {
-      const alreadyOpen = item.classList.contains('open');
-      document.querySelectorAll('[data-item]').forEach(i => {
-        i.classList.remove('open');
-        i.querySelector('.accordion-icon').textContent = '+';
-      });
-      if (!alreadyOpen) {
-        item.classList.add('open');
-        item.querySelector('.accordion-icon').textContent = '−';
-      }
-    });
-  });
-</script>
-
-<!-- ignore this JS too -> for gallery going in chronological order-->
- <script>
 document.addEventListener('DOMContentLoaded', () => {
   const gallery = document.querySelector('.year-gallery');
   if (!gallery) return;
@@ -314,14 +284,25 @@ document.addEventListener('DOMContentLoaded', () => {
     return 4;
   }
 
+  function waitForImages(tiles) {
+    return Promise.all(tiles.map(tile => {
+      const img = tile.querySelector('img');
+      if (img.complete && img.naturalWidth) return Promise.resolve();
+      return new Promise(resolve => {
+        img.addEventListener('load', resolve, { once: true });
+        img.addEventListener('error', resolve, { once: true });
+      });
+    }));
+  }
+
   function layoutGallery() {
-    // grab every photo in its current code order before we rearrange anything
     const tiles = Array.from(gallery.querySelectorAll('.year-tile'));
     if (!tiles.length) return;
     const numCols = getColumnCount();
 
     gallery.innerHTML = '';
     const columns = [];
+    const colHeights = new Array(numCols).fill(0);
     for (let i = 0; i < numCols; i++) {
       const col = document.createElement('div');
       col.className = 'gallery-column';
@@ -329,13 +310,22 @@ document.addEventListener('DOMContentLoaded', () => {
       columns.push(col);
     }
 
-    // this is the key part - photo 1 goes in column 1, photo 2 in column 2,
-    // etc., wrapping back to column 1 once it runs out of columns - so code
-    // order always reads left-to-right, top-to-bottom
-    tiles.forEach((tile, i) => columns[i % numCols].appendChild(tile));
+    // walk photos in code order, but drop each one into whichever column
+    // is currently shortest - this is what actually balances the bottoms
+    tiles.forEach(tile => {
+      const img = tile.querySelector('img');
+      const ratio = (img.naturalWidth && img.naturalHeight) ? img.naturalHeight / img.naturalWidth : 1;
+      let shortest = 0;
+      for (let i = 1; i < numCols; i++) {
+        if (colHeights[i] < colHeights[shortest]) shortest = i;
+      }
+      columns[shortest].appendChild(tile);
+      colHeights[shortest] += ratio;
+    });
   }
 
-  layoutGallery();
+  const initialTiles = Array.from(gallery.querySelectorAll('.year-tile'));
+  waitForImages(initialTiles).then(layoutGallery);
 
   let resizeTimer;
   window.addEventListener('resize', () => {

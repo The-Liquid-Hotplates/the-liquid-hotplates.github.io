@@ -700,6 +700,16 @@
     return 3;
   }
 
+  function waitForGalleryImages(imgs) {
+    return Promise.all(imgs.map(img => {
+      if (img.complete && img.naturalWidth) return Promise.resolve();
+      return new Promise(resolve => {
+        img.addEventListener('load', resolve, { once: true });
+        img.addEventListener('error', resolve, { once: true });
+      });
+    }));
+  }
+
   function layoutPanelGallery() {
     const gallery = document.querySelector('#panelContent .panel-gallery');
     if (!gallery) return;
@@ -707,16 +717,30 @@
     if (!tiles.length) return;
     const numCols = getGalleryColumnCount();
 
-    gallery.innerHTML = '';
-    const columns = [];
-    for (let i = 0; i < numCols; i++) {
-      const col = document.createElement('div');
-      col.className = 'panel-gallery-column';
-      gallery.appendChild(col);
-      columns.push(col);
-    }
+    waitForGalleryImages(tiles).then(() => {
+      // popup may have been closed/switched while images were still loading
+      if (!document.body.contains(tiles[0])) return;
 
-    tiles.forEach((tile, i) => columns[i % numCols].appendChild(tile));
+      gallery.innerHTML = '';
+      const columns = [];
+      const colHeights = new Array(numCols).fill(0);
+      for (let i = 0; i < numCols; i++) {
+        const col = document.createElement('div');
+        col.className = 'panel-gallery-column';
+        gallery.appendChild(col);
+        columns.push(col);
+      }
+
+      tiles.forEach(img => {
+        const ratio = (img.naturalWidth && img.naturalHeight) ? img.naturalHeight / img.naturalWidth : 1;
+        let shortest = 0;
+        for (let i = 1; i < numCols; i++) {
+          if (colHeights[i] < colHeights[shortest]) shortest = i;
+        }
+        columns[shortest].appendChild(img);
+        colHeights[shortest] += ratio;
+      });
+    });
   }
 
   function renderContent(ev) {
