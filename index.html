@@ -36,6 +36,7 @@
   <div class="grain"></div>
 
   <!-- About + Accordion -->
+   <!--about us-->
   <section class="section accordion-section">
     <div class="accordion-grid">
       <div class="accordion-about">
@@ -57,6 +58,7 @@
         <a href="https://instagram.com/theliquidhotplates" class="glass-btn" style="margin-top: 1.5rem;">Follow our Instagram!</a>
       </div>
 
+      <!-- accordion -->
       <div class="accordion-list">
         
         <!-- we compete -->
@@ -266,6 +268,7 @@
       </div>
 
     </div>
+    <!-- end body -->
   </section>
 
   <footer>&copy; 2026 The Liquid Hotplates</footer>
@@ -276,6 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const gallery = document.querySelector('.year-gallery');
   if (!gallery) return;
 
+  //gets column num
   function getColumnCount() {
     const w = window.innerWidth;
     if (w < 500) return 1;
