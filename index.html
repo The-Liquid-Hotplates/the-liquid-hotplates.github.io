@@ -279,9 +279,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function getColumnCount() {
     const w = window.innerWidth;
     if (w < 500) return 1;
-    if (w < 750) return 2;
-    if (w < 1000) return 3;
-    return 4;
+    if (w < 900) return 2;
+    return 3;
   }
 
   function waitForImages(tiles) {
