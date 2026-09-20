@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- head content, no style stuff, title + logo basic as on every page -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +8,11 @@
 <link rel="icon" type="image/png" href="images/home-images/logo.png">
 <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
   <!--nav bar + logo -->
+  <!-- no image or logo text on top left -->
   <nav>
     <div class="nav-pill">
       <a href="index.html" class="active">Home</a>
@@ -65,7 +68,7 @@
         <div class="accordion-item open" data-item>
           <button class="accordion-header">
             <span>We Compete</span>
-            <span class="accordion-icon">−</span>
+            <span class="accordion-icon">-</span>
           </button>
           <div class="accordion-panel">
             <p>Every February, we compete at ICCAs (International 
@@ -268,12 +271,13 @@
       </div>
 
     </div>
-    <!-- end body -->
+    <!-- end body CONTENT-->
   </section>
 
   <footer>&copy; 2026 The Liquid Hotplates</footer>
 
-<!-- ignore javascript below -->
+<!-- javascript for the page -->
+ <!-- photo gallery js -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const gallery = document.querySelector('.year-gallery');
@@ -287,6 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return 3;
   }
 
+  //waits for images to load to get image width and height for column evenness
   function waitForImages(tiles) {
     return Promise.all(tiles.map(tile => {
       const img = tile.querySelector('img');
@@ -334,6 +339,30 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(layoutGallery, 200);
+  });
+});
+</script>
+
+<!-- accordion js-->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.accordion-item').forEach(item => {
+    item.querySelector('.accordion-header').addEventListener('click', () => {
+      const alreadyOpen = item.classList.contains('open');
+
+      // close every section first
+      document.querySelectorAll('.accordion-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.accordion-icon').textContent = '+';
+      });
+
+      // then open the one that was clicked, unless it was already open
+      // (clicking an open section again just closes it, nothing reopens)
+      if (!alreadyOpen) {
+        item.classList.add('open');
+        item.querySelector('.accordion-icon').textContent = '−';
+      }
+    });
   });
 });
 </script>
