@@ -12,6 +12,7 @@
 <!-- head - style block stuff-->
 <style>
   
+  /*grid that holds all the cards; adjusts the col count based on the screen width*/
   .cutout-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -20,6 +21,7 @@
     margin: 0 auto;
   }
 
+  /*each members whole card; picture + pill of info*/
   .cutout-card {
     position: relative;
     display: flex;
@@ -28,8 +30,8 @@
     padding-top: 2rem;
   }
 
-  /* Fixed-size box so every card takes up the same amount of space
-     regardless of the source photo's original dimensions */
+  /*fixed-size box so every card takes up the same amount of space
+     regardless of the source photo's original dimensions*/
   .cutout-photo-wrap {
     position: relative;
     z-index: 1;
@@ -40,6 +42,7 @@
     border-radius: 20px;
   }
 
+  /*actual image styling; forces image to fill box and crops images*/
   .cutout-photo {
     width: 100%;
     height: 100%;
@@ -48,11 +51,7 @@
     display: block;
   }
 
-  /* One pill, always visible - on hover it grows to reveal extra lines
-     (bio, fun fact, award) rather than a separate box appearing over the
-     photo. The photo itself is never covered by anything, so this never
-     reads as "a card popped up" - it's just the same small pill getting
-     a bit taller. */
+  /*glass pill that shows the name title and year, can expand which is below*/
   .cutout-info {
     position: relative;
     z-index: 2;
@@ -67,12 +66,12 @@
     max-width: 240px;
   }
 
+  /*continued - glass pill showing name title year*/
   .cutout-info h3 { font-size: 1rem; font-weight: 700; }
   .cutout-info .title { color: var(--orange); font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem; }
   .cutout-info .meta { opacity: 0.6; font-size: 0.78rem; margin-top: 0.3rem; }
 
-  /* Hidden by default, expands open on hover - stays part of the same
-     pill shape instead of becoming its own separate element. */
+  /*hidden pill section that expands on the hover*/
   .cutout-extra {
     max-height: 0;
     overflow: hidden;
@@ -80,12 +79,14 @@
     transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.4s ease;
   }
 
+  /*hover trigger itself; makes the section appear and grow over the card*/
   .cutout-card:hover .cutout-extra {
     max-height: 160px;
     opacity: 1;
     margin-top: 0.6rem;
   }
 
+  /*continued; hover trigger itself*/
   .cutout-extra .bio { opacity: 0.8; font-size: 0.78rem; line-height: 1.5; padding-top: 0.6rem; border-top: 1px solid var(--glass-edge); }
   .cutout-extra .bio .fun-fact { opacity: 0.55; font-weight: 400; }
   .cutout-extra .award {
@@ -101,6 +102,7 @@
     border-radius: 20px;
   }
 
+  /*alumni heading + subtitle separating the current and alumni grid*/
   .section-divider {
     margin: 5rem 0 3rem;
     text-align: center;
