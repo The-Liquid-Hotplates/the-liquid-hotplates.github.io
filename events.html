@@ -7,12 +7,15 @@
 <link rel="icon" type="image/png" href="images/home-images/logo.png">
 <link rel="stylesheet" href="styles.css">
 <style>
+
+  /*vertical container golding every year group*/
   .timeline {
     display: flex;
     flex-direction: column;
     gap: 3rem;
   }
 
+  /*small year label on the top of each years group; "2025", "2026"*/
   .year-heading {
     font-size: 0.8rem;
     font-weight: 700;
@@ -22,9 +25,11 @@
     opacity: 0.8;
     margin-bottom: 1rem;
   }
-
+  
+  /*wraps the year events together*/
   .year-group { display: flex; flex-direction: column; gap: 1rem; }
 
+  /*one clickable event row on the timeline*/
   .event-card {
     padding: 1.75rem 2rem;
     cursor: pointer;
@@ -34,6 +39,7 @@
     gap: 1.5rem;
   }
 
+  /*highlight effect when you hover over a card*/
   .event-card:hover {
     background: rgba(9, 83, 234, 0.1);
     border-color: rgba(9, 83, 234, 0.35);
@@ -41,6 +47,7 @@
 
   .event-card .info h3 { font-size: 1.15rem; font-weight: 700; }
   .event-card .info p { opacity: 0.6; font-size: 0.92rem; margin-top: 0.3rem; }
+  /*small bluepill on the right side of each card*/
   .event-card .date {
     font-size: 0.75rem;
     font-weight: 700;
@@ -51,7 +58,8 @@
     white-space: nowrap;
   }
 
-  /* ============ EXPAND OVERLAY - now the FULL event page, not a preview ============ */
+  /* ========================== EXPAND OVERLAY =============================== */
+  /*dark colored blobs background of the page*/
   #expand-backdrop {
     position: fixed;
     inset: 0;
@@ -72,6 +80,7 @@
     pointer-events: auto;
   }
 
+  /*popup box itself*/
   #expand-panel {
     position: fixed;
     z-index: 91;
@@ -83,6 +92,7 @@
     box-shadow: 0 40px 120px rgba(0,0,0,0.65);
   }
 
+  /*X button in top right corner*/
   #expand-panel .close-btn {
     position: fixed;
     top: 1.5rem;
@@ -106,13 +116,14 @@
   #expand-panel .close-btn:hover { background: rgba(255,255,255,0.16); }
   #expand-panel.expanded .close-btn { opacity: 1; }
 
+  /*scrollable area in popup*/
   #expand-panel .panel-content {
     height: 100%;
     overflow-y: auto;
     opacity: 0;
     transition: opacity 0.35s ease 0.2s;
-    scrollbar-width: thin; /* Firefox */
-    scrollbar-color: #5a5a5a #0d0d0f; /* Firefox: thumb color, track color */
+    scrollbar-width: thin; /* firefox */
+    scrollbar-color: #5a5a5a #0d0d0f; /* firefox: thumb color, track color */
   }
 
   /* Chrome/Safari/Edge scrollbar - gray thumb on a near-black track,
@@ -137,6 +148,8 @@
 
   #expand-panel.expanded .panel-content { opacity: 1; }
 
+  /* ============================ POPUP CONTENT CLASSES ========================*/
+  /*hero+ photo title area on the top of the popup*/
   .panel-inner-hero {
     position: relative;
     min-height: 48vh; /* CHANGE: was 32vh - taller box means background-size:cover crops much less
@@ -153,40 +166,50 @@
   .panel-inner-hero .photo-layer { position: absolute; inset: 0; background-size: cover; background-position: center 30%; }
   .panel-inner-hero .photo-dim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,12,16,0.2) 0%, rgba(11,12,16,0.75) 75%, rgba(11,12,16,0.92) 100%); }
 
+  /*small lavel and bib title and date location in hero*/
   .panel-eyebrow { position: relative; font-size: 0.85rem; color: var(--blue-light); letter-spacing: 0.05em; margin-bottom: 0.6rem; }
   .panel-title { position: relative; font-size: clamp(1.7rem, 4.2vw, 2.75rem); font-weight: 800; }
   .panel-date { position: relative; opacity: 0.65; font-size: 0.98rem; margin-top: 0.5rem; }
 
   .panel-body-inner { padding: 2.5rem clamp(1.5rem, 5vw, 4rem) 4rem; max-width: 900px; }
 
+  /*award pills orange*/
   .panel-awards { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 2rem; }
   .panel-award {
     font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
     color: var(--orange); background: rgba(255, 107, 53, 0.15); padding: 0.4rem 0.9rem; border-radius: 20px;
   }
 
+  /*setlist, member list, photo, performance headers*/
   .panel-section-title { font-size: 1.2rem; font-weight: 700; margin: 2.5rem 0 1.25rem; }
   .panel-section-title:first-of-type { margin-top: 0; }
+  /*description paragraph*/
   .panel-about { opacity: 0.82; line-height: 1.75; font-size: 1.02rem; }
   .panel-about .name { color: var(--blue-light); font-weight: 600; }
 
+  /*glass background wrapping setlist and guest groups*/
   .panel-glass-box { background: var(--glass-fill); border: 1px solid var(--glass-edge); border-radius: 18px; padding: 1.75rem 2rem; }
 
+  /*one song entry, styling the soloist, arrangement, and choreo credits under*/
   .setlist-item { padding: 1.1rem 0; border-bottom: 1px solid var(--glass-edge); }
   .setlist-item:last-child { border-bottom: none; }
   .setlist-item h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
   .setlist-item .credits { opacity: 0.6; font-size: 0.88rem; line-height: 1.6; }
 
+  /*member and guest group pills*/
   .member-pills { display: flex; flex-wrap: wrap; gap: 0.55rem; }
   .member-pill { font-size: 0.82rem; padding: 0.45rem 1rem; border-radius: 20px; background: var(--glass-fill); border: 1px solid var(--glass-edge); }
 
+  /*youtube embed*/
   .panel-video { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-edge); }
   .panel-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; }
 
+  /*photo gallery grid and col gap*/
   .panel-gallery { display: flex; gap: 0.9rem; }
   .panel-gallery-column { display: flex; flex-direction: column; gap: 0.9rem; flex: 1; min-width: 0; }
   .panel-gallery img { width: 100%; display: block; border-radius: 12px; }
 
+  /*back to timeline button*/
   .back-link-panel {
     display: inline-flex; align-items: center; gap: 0.4rem;
     color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem;
@@ -195,6 +218,8 @@
   .back-link-panel:hover { color: var(--blue-light); }
 </style>
 </head>
+
+<!-- ============= END OF THE HEAD, MOVING INTO CONTENT BODY =================-->
 <body>
 
   <!-- background-->
@@ -228,48 +253,59 @@
     <p>Tap through to see what we have been up to!</p>
   </div>
 
-  <!-- previews (before clicking anything)-->
+  <!-- timeline (before clicking anything)-->
   <section class="section" style="padding-top: 1rem;">
     <div class="timeline" id="timeline">
 
+      <!-- 2026 events -->
       <div class="year-group">
         <div class="year-heading">2026</div>
+        <!-- OTR -->
         <div class="event-card glass-card" data-event="otr2026">
           <div class="info"><h3>Off The Record 2026</h3><p>LHP's 2nd annual OTR showcasing everything we've worked on the entire year!</p></div>
           <div class="date">MAY 16, 2026</div>
         </div>
+        <!--ICCA Semis-->
         <div class="event-card glass-card" data-event="semis2026">
           <div class="info"><h3>ICCA West Semifinals 2026</h3><p>LHP took home 3rd place & Outstanding Soloist at Semifinals!</p></div>
           <div class="date">MAR 21, 2026</div>
         </div>
+        <!--ICCA Quarters-->
         <div class="event-card glass-card" data-event="quarters2026">
           <div class="info"><h3>ICCA West Quarterfinals 2026</h3><p>LHP placed 1st at Quarterfinals and took home Outstanding Arrangement, Outstanding Vocal Percussionist, & Outstanding Soloist!</p></div>
           <div class="date">FEB 28, 2026</div>
         </div>
       </div>
 
+      <!-- 2025 events -->
       <div class="year-group">
         <div class="year-heading">2025</div>
+        <!--Alotta-->
         <div class="event-card glass-card" data-event="alotta2025">
           <div class="info"><h3>Alottacappella 2025</h3><p>LHP's annual show featuring groups across the state!</p></div>
           <div class="date">NOV 22-23, 2025</div>
         </div>
+        <!--OTR-->
         <div class="event-card glass-card" data-event="otr2025">
           <div class="info"><h3>Off The Record 2025</h3><p>First free OTR show in history showcasing music we've worked on throughout the year!</p></div>
           <div class="date">MAY 17, 2025</div>
         </div>
+        <!--ICCA Quarters-->
         <div class="event-card glass-card" data-event="quarters2025">
           <div class="info"><h3>ICCA West Quarterfinals 2025</h3><p>LHP placed 3rd at Quarterfinals and took home Outstanding Vocal Percussionist!</p></div>
           <div class="date">FEB 8, 2025</div>
         </div>
       </div>
 
+      <!-- 2024 events -->
       <div class="year-group">
         <div class="year-heading">2024</div>
+        <!--Alotta-->
         <div class="event-card glass-card" data-event="alotta2024">
           <div class="info"><h3>Alottacappella 2024</h3><p>LHP's annual show featuring groups across the state!</p></div>
           <div class="date">NOV 16-17, 2024</div>
         </div>
+        <!--ICCA Quarters-->
         <div class="event-card glass-card" data-event="quarters2024">
           <div class="info"><h3>ICCA West Quarterfinals 2024</h3><p>LHP placed 3rd at Quarterfinals & took home Outstanding Soloist!</p></div>
           <div class="date">FEB 17, 2024</div>
@@ -292,6 +328,9 @@
 <!-- OTR 2026 -->
 <script> //this means we are now in javascript :p
   const events = {
+    //\/ make sure this key matches a timeline event as seen in the code above
+    //\/ this value must match EXACTLY one of the "data-event="" to connect to it
+    //this one connects to the data-event=otr2026 above
     otr2026: {
       title: 'Off The Record 2026', eyebrow: 'Off The Record 2026',
       date: "May 16th, 2026 · Khaira Lecture Hall, UC Davis",
@@ -677,7 +716,7 @@
     }
   };
 
-  //IGNORE BELOW
+  //JAVASCRIPT CONTINUED
 
   const backdrop = document.getElementById('expand-backdrop');
   const panel = document.getElementById('expand-panel');
@@ -846,8 +885,8 @@
   closeBtn.addEventListener('click', closeCard);
   backdrop.addEventListener('click', closeCard);
 
-  // BUG FIX: the panel's position/size was only ever calculated once
-  // when you opened it creating resizing bugs --> fixed now
+  //bug fix -> the panel's position/size was only ever calculated once
+  //when you opened it creating resizing bugs
   window.addEventListener('resize', () => {
     if (!panel.classList.contains('expanded')) return;
     const target = fullRect();
