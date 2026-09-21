@@ -86,6 +86,13 @@
     margin-top: 0.6rem;
   }
 
+  /*same thing as above but this allows the thing to extend further if the 
+    info pill needs more space
+    made this bc yau has too many awards...*/
+  .cutout-card:hover .tall-extra {
+  max-height: 220px;
+}
+
   /*continued; hover trigger itself*/
   .cutout-extra .bio { opacity: 0.8; font-size: 0.78rem; line-height: 1.5; padding-top: 0.6rem; border-top: 1px solid var(--glass-edge); }
   .cutout-extra .bio .fun-fact { opacity: 0.55; font-weight: 400; }
@@ -180,9 +187,11 @@
         <div class="cutout-info"><h3>Lik Yau Chow</h3>
           <div class="title">Music Director</div>
           <div class="meta">Vocal Percussionist · Class of 2027</div>
-          <!-- added style = max height to yau's because he has too many awards...
-                you can do this to anyone who's expanded card is getting cut off-->
-          <div class="cutout-extra" style="max-height: 220px;">
+          <!--note that this line \/ below is different that other peoples
+              this is because yau's card needs more space to expand than others
+              this is bc he has too many awards
+              you can increase the extension width further if you want more space-->
+          <div class="cutout-extra tall-extra">
             <p class="bio">Animal Science + Music Minor<br><span class="fun-fact">Fun Fact: Bullies kids on Roblox</span></p>
             <span class="award">ICCA West Semifinals Best VP (2026)</span>
             <span class="award">ICCA West Quarterfinals Best VP (2026)</span>
