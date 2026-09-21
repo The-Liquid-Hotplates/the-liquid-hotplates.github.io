@@ -73,9 +73,7 @@ body {
 @keyframes drift-c { to { transform: translate(-14%, 12%) scale(1.15); } }
 @keyframes drift-d { to { transform: translate(-10%, 14%) scale(1.1); } }
 
-/* Subtle breathing on top of the drift - not just moving, but pulsing in
-   intensity too, so the whole field feels more alive rather than static
-   blobs that happen to glide around. */
+/*movement and pulse of the entire site*/
 @keyframes pulse-a { 0%, 100% { opacity: 0.75; } 50% { opacity: 0.55; } }
 @keyframes pulse-b { 0%, 100% { opacity: 0.55; } 50% { opacity: 0.38; } }
 @keyframes pulse-c { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.24; } }
@@ -96,10 +94,7 @@ nav {
   top: 0; left: 0; right: 0;
   z-index: 50;
   display: grid;
-  grid-template-columns: 1fr auto 1fr; /* logo | pill | empty spacer - this is what actually keeps
-                                           them from ever overlapping, since each has its own real
-                                           track instead of the pill just centering on the full
-                                           viewport width with no idea the logo is even there */
+  grid-template-columns: 1fr auto 1fr; /* logo | pill | empty spacer - keeps them from overlapping*/
   align-items: center;
   padding: 1.5rem 2rem;
 }
@@ -125,9 +120,8 @@ nav {
 }
 
 .nav-pill {
-  grid-column: 2; /* Without this, CSS Grid auto-places the pill into column 1 whenever
-                      .nav-left isn't present (the homepage intentionally has no logo/name) -
-                      forcing column 2 explicitly keeps it centered on every page regardless. */
+  grid-column: 2; /*without this, CSS Grid auto-places the pill into column 1 whenever
+                      .nav-left isn't present*/
   display: flex;
   gap: 0.25rem;
   background: rgba(5, 5, 6, 0.5);
@@ -189,13 +183,10 @@ nav {
   position: relative;
   z-index: 3;
   width: 100%;
-  max-width: min(92vw, 700px); /* CHANGE: measured "The Liquid Hotplates" actually needs 607px at the
-                                    max font-size in the clamp below - 700px (minus padding) gives it
-                                    real margin to fit on one line on desktop. min(92vw, ...) still lets
-                                    it narrow down on a phone screen, where it wraps naturally instead
-                                    of being forced to. */
+  max-width: min(92vw, 700px); /*measured; lets it narrow down on a phone screen, 
+                                where it wraps naturally instead of being forced to. */
   text-align: center;
-  padding: 2rem 1.75rem; /* CHANGE: was 2.75rem 2rem - tighter, less coverage */
+  padding: 2rem 1.75rem;
   background: var(--glass-fill);
   border: 1px solid var(--glass-edge);
   backdrop-filter: blur(28px);
@@ -399,9 +390,7 @@ footer {
 }
 
 /* ============ THROUGH THE YEARS GALLERY ============ */
-/* Masonry via CSS columns, not a forced-crop grid - each photo keeps its
-   real aspect ratio (no object-fit:cover cutting people off), it just packs
-   into columns at whatever height it naturally wants to be. */
+/*masonry via CSS columnss */
 .year-gallery {
   display: flex;
   gap: 1.25rem;
@@ -457,11 +446,8 @@ footer {
   flex-shrink: 0; /* protects the logo from ever getting visually squeezed as its grid track shrinks */
 }
 
-/* Hides just the site name once there's no longer comfortable room for
-   logo + name + the full pill together - the logo stays visible at every
-   width, all the way down to mobile. Without this, the name was clipping
-   mid-word once the nav-left grid track got too narrow, instead of
-   cleanly disappearing. */
+/*hides just the site name once there's no longer comfortable room for
+   logo + name + the full pill together*/
 @media (max-width: 1050px) {
   .nav-left .site-name {
     display: none;
@@ -469,7 +455,7 @@ footer {
 }
 
 /* ============ MOBILE NAV FIX ============ */
-/* With 6 items now (Home/Members/Events/Music/Auditions/Contact Us), the
+/*with 6 items now (Home/Members/Events/Music/Auditions/Contact Us), the
    pill is too wide to fit a phone screen in one row. Rather than making it
    scrollable, the logo/name is dropped entirely on mobile to free up the
    most possible width, and the pill items shrink down just enough that all
