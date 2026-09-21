@@ -7,6 +7,7 @@
 <link rel="icon" type="image/png" href="images/home-images/logo.png">
 <link rel="stylesheet" href="styles.css">
 <style>
+  /*row holding the email and insta buttons*/
   .contact-buttons {
     display: flex;
     justify-content: center;
@@ -14,6 +15,7 @@
     flex-wrap: wrap;
     margin-top: 2rem;
   }
+  /*copied! note styling*/
   .copy-feedback {
     margin-top: 1rem;
     font-size: 0.85rem;
@@ -55,10 +57,13 @@
     <p style="margin-left:auto; margin-right:auto;">Questions, booking requests, or just want to say hi?<br><br>Reach out through either of these:</p>
 
     <div class="contact-buttons">
+      <!-- contact buttons linked to insta and email -->
       <a href="https://instagram.com/theliquidhotplates" target="_blank" class="glass-btn">📸 Instagram</a>
       <a href="mailto:theliquidhotplates@gmail.com" class="glass-btn" id="emailLink">✉️ Email Us</a>
     </div>
-  </div>
+    <!-- confirmation for email being copied 
+          see JS below -->
+    <p class="copy-feedback" id="copyFeedback">Email copied to clipboard!</p>
 
   <footer>&copy; 2026 The Liquid Hotplates</footer>
 
