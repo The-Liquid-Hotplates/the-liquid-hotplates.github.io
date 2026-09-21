@@ -123,7 +123,7 @@
 <!-- background-->
 <body style="background: var(--black);">
 
-  <!--nav bar + logo -->
+  <!--nav bar + logo; standard -->
   <nav>
     <div class="nav-left">
       <img src="images/home-images/logo.png" alt="LHP Logo">
@@ -140,15 +140,18 @@
   </nav>
 
   <!-- CURRENT MEMBERS -->
+   <!-- current members headline-->
   <div class="page-head">
     <div class="eyebrow">The People</div>
     <h1>Current Members</h1>
     <p>Meet the voices behind the group!</p>
   </div>
 
+  <!-- current members grid-->
   <section class="section" style="padding-top: 1rem;">
-    <div class="cutout-grid">
 
+    <!-- each member card looks like this-->
+    <div class="cutout-grid">
       <div class="cutout-card">
         <div class="cutout-photo-wrap"><img class="cutout-photo" src="images/member-images/current/brooklyn.png" alt="Brooklyn Mercado"></div>
         <div class="cutout-info"><h3>Brooklyn Mercado</h3>
@@ -159,6 +162,7 @@
           </div>
         </div>
       </div>
+      <!--end individual member card-->
 
       <div class="cutout-card">
         <div class="cutout-photo-wrap"><img class="cutout-photo" src="images/member-images/current/nick.png" alt="Nickolas Ho"></div>
@@ -176,7 +180,9 @@
         <div class="cutout-info"><h3>Lik Yau Chow</h3>
           <div class="title">Music Director</div>
           <div class="meta">Vocal Percussionist · Class of 2027</div>
-          <div class="cutout-extra">
+          <!-- added style = max height to yau's because he has too many awards...
+                you can do this to anyone who's expanded card is getting cut off-->
+          <div class="cutout-extra" style="max-height: 220px;">
             <p class="bio">Animal Science + Music Minor<br><span class="fun-fact">Fun Fact: Bullies kids on Roblox</span></p>
             <span class="award">ICCA West Semifinals Best VP (2026)</span>
             <span class="award">ICCA West Quarterfinals Best VP (2026)</span>
